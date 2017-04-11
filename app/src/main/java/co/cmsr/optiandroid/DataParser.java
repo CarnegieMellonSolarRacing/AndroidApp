@@ -1,22 +1,62 @@
 package co.cmsr.optiandroid;
 
+import android.provider.ContactsContract;
 import android.util.JsonReader;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  * Created by jonbuckley on 4/9/17.
  */
 
 public class DataParser {
+    LinkedList<DataPacket> parsedPackets;
+    String buffer;
+
+    static final String deliminator = "\r\n";
+
     public DataParser() {
+        buffer = "";
+        parsedPackets = new LinkedList<DataPacket>();
     }
 
-    public DataPacket Parse(InputStream in) throws IOException {
+    public void onDataReceived(byte[] data) {
+        buffer += new String(data);
+
+        if (buffer.contains("\n")) {
+            // Try to parse data if we have received a "full line"
+            String[] lines = buffer.split(deliminator);
+
+            String firstLine = lines[0];
+            try {
+                DataPacket packet = parse(new ByteArrayInputStream(firstLine.getBytes()));
+                parsedPackets.add(packet);
+            } catch (Exception e) {
+                System.out.println("Could not parse the following line: " + firstLine);
+            }
+
+            // Pop off the first line from the buffer.
+            buffer = buffer.substring(firstLine.length() + deliminator.length());
+        }
+    }
+
+    public DataPacket getDataPacket() {
+        if (!parsedPackets.isEmpty()) {
+            return parsedPackets.removeFirst();
+        }
+
+        return null;
+    }
+
+    public DataPacket parse(InputStream in) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
         reader.setLenient(true);
         try {
@@ -42,7 +82,7 @@ public class DataParser {
             }
         }
         reader.endObject();
-        return new DataPacket(currents, temps);
+        return new DataPacket(temps, currents);
     }
 
     private List<Double> readCurrents(JsonReader reader) throws IOException {

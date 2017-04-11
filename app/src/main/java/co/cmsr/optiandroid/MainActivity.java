@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
@@ -38,32 +39,20 @@ public class MainActivity extends Activity {
     UsbSerialDevice serialPort;
     UsbDeviceConnection connection;
     DataParser dataParser;
+    boolean connectedToArduino;
+
+    public static final String TAG = "AndroidOpti";
 
     UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() { //Defining a Callback which triggers whenever data is read.
         @Override
         public void onReceivedData(byte[] arg0) {
-            String data = null;
-            try {
-                data = new String(arg0, "UTF-8");
-                data.concat("/n");
-                ByteArrayInputStream in = new ByteArrayInputStream(data.getBytes());
+            dataParser.onDataReceived(arg0);
+            DataPacket dp = dataParser.getDataPacket();
 
-                //tvAppend(textView, data + "\n\n");
-                // Parse data.
-                try {
-                    DataPacket packet = dataParser.Parse(in);
-                    setOutputDisplay(packet.toString());
-
-                } catch(Exception e) {
-                    tvAppend(textView, e.toString());
-                    System.out.println("Couldn't parse packet :(");
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (dp != null) {
+                // New datapacket received!
+                setOutputDisplay(dp.toString());
             }
-
-
         }
     };
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
@@ -72,38 +61,60 @@ public class MainActivity extends Activity {
             if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
                 boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
                 if (granted) {
-                    connection = usbManager.openDevice(device);
-                    serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
-                    if (serialPort != null) {
-                        if (serialPort.open()) { //Set Serial Connection Parameters.
-                            setUiEnabled(true);
-                            serialPort.setBaudRate(9600);
-                            serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
-                            serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
-                            serialPort.setParity(UsbSerialInterface.PARITY_NONE);
-                            serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
-                            serialPort.read(mCallback);
-                            tvAppend(textView,"Serial Connection Opened!\n");
-
-                        } else {
-                            Log.d("SERIAL", "PORT NOT OPEN");
-                        }
-                    } else {
-                        Log.d("SERIAL", "PORT IS NULL");
-                    }
+                    openConnection();
                 } else {
                     Log.d("SERIAL", "PERM NOT GRANTED");
                 }
             } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
-                onClickStart(startButton);
+                tryConnectToArduino();
             } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
-                onClickStop(stopButton);
-
+                closeConnection();
             }
         }
 
         ;
     };
+
+    private void openConnection() {
+        connection = usbManager.openDevice(device);
+        serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
+        if (serialPort != null) {
+            if (serialPort.open()) { //Set Serial Connection Parameters.
+                serialPort.setBaudRate(9600);
+                serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
+                serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
+                serialPort.setParity(UsbSerialInterface.PARITY_NONE);
+                serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
+                serialPort.read(mCallback);
+
+                onConnectionOpened();
+            } else {
+                Log.d("SERIAL", "PORT NOT OPEN");
+            }
+        } else {
+            Log.d("SERIAL", "PORT IS NULL");
+        }
+    }
+
+    private void closeConnection() {
+        serialPort.close();
+
+        onConnectionClosed();
+    }
+
+    private void onConnectionOpened() {
+        startButton.setBackgroundColor(Color.GREEN);
+        startButton.setText("Disconnect from Arduino");
+
+        connectedToArduino = true;
+    }
+
+    private void onConnectionClosed() {
+        startButton.setBackgroundColor(Color.RED);
+        startButton.setText("Connect to Arduino");
+
+        connectedToArduino = false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +128,9 @@ public class MainActivity extends Activity {
         editText = (EditText) findViewById(R.id.editText);
         textView = (TextView) findViewById(R.id.textView);
         dataOutput = (TextView) findViewById(R.id.OutputDisplay);
-        setUiEnabled(false);
+
+        onConnectionClosed();
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
@@ -131,16 +144,7 @@ public class MainActivity extends Activity {
         dataParser = new DataParser();
     }
 
-    public void setUiEnabled(boolean bool) {
-        startButton.setEnabled(!bool);
-        sendButton.setEnabled(bool);
-        stopButton.setEnabled(bool);
-        textView.setEnabled(bool);
-
-    }
-
-    public void onClickStart(View view) {
-
+    private void tryConnectToArduino() {
         HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
         if (!usbDevices.isEmpty()) {
             boolean keep = true;
@@ -161,21 +165,20 @@ public class MainActivity extends Activity {
                     break;
             }
         }
+    }
 
-
+    public void onConnectButtonClicked(View view) {
+        if (connectedToArduino) {
+            closeConnection();
+        } else {
+            tryConnectToArduino();
+        }
     }
 
     public void onClickSend(View view) {
         String string = editText.getText().toString();
         serialPort.write(string.getBytes());
         tvAppend(textView, "\nData Sent : " + string + "\n");
-
-    }
-
-    public void onClickStop(View view) {
-        setUiEnabled(false);
-        serialPort.close();
-        tvAppend(textView,"\nSerial Connection Closed! \n");
     }
 
     public void onClickClear(View view) {
