@@ -62,11 +62,19 @@ public class DataManager {
     public void onConnectionOpened() {
         connectButton.setBackgroundColor(Color.GREEN);
         connectButton.setText("Disconnect from Arduino");
+
+        if (saveLog) {
+            Logger.writeToFile(trialName, String.format("CONNECTED %d\n", elapsedTime()));
+        }
     }
 
     public void onConnectionClosed() {
         connectButton.setBackgroundColor(Color.RED);
         connectButton.setText("Connect to Arduino");
+
+        if (saveLog) {
+            Logger.writeToFile(trialName, String.format("%f DISCONNECTED\n", elapsedTime()));
+        }
     }
 
     public void onConnectButtonClicked(View view) {
@@ -87,6 +95,10 @@ public class DataManager {
             // New data packet received!
             dynamicLineChartOne.addPoint(currentTime, dp.currents.get(0).floatValue());
             dynamicBarChartOne.updateValues(dp.voltages);
+
+            if (saveLog) {
+                Logger.writeToFile(trialName, String.format("%f %s\n", currentTime, dp.toString()));
+            }
         }
     }
 

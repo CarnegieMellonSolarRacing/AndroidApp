@@ -19,6 +19,8 @@ public class DataPacket {
 
     @Override
     public String toString() {
-        return "Temperatures: " + temps.toString() + "\nCurrents: " + currents.toString() + "\nVoltages" + voltages.toString();
+        return "Temperatures: " + temps.toString() +
+                " Currents: " + currents.toString() +
+                " Voltages" + voltages.toString();
     }
 }
