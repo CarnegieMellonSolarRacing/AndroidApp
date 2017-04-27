@@ -8,8 +8,10 @@ import android.widget.Button;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by jonbuckley on 4/26/17.
@@ -27,7 +29,7 @@ public class DataManager {
 
     Button connectButton;
     long startTime;
-    String trialName;
+    String logName;
     boolean saveLog;
 
     public DataManager(
@@ -38,7 +40,10 @@ public class DataManager {
             LineChart chartOne,
             BarChart chartTwo) {
         this.connectButton = connectButton;
-        this.trialName = trialName;
+
+        Date today = new Date();
+        String dateString = new SimpleDateFormat("dd-MM-yyyy").format(today);
+        this.logName = String.format("%s-%s", trialName, dateString);
         this.saveLog = saveLog;
 
         dataParser = new DataParser();
@@ -64,7 +69,7 @@ public class DataManager {
         connectButton.setText("Disconnect from Arduino");
 
         if (saveLog) {
-            Logger.writeToFile(trialName, String.format("CONNECTED %d\n", elapsedTime()));
+            Logger.writeToFile(logName, String.format("CONNECTED %d\n", elapsedTime()));
         }
     }
 
@@ -73,7 +78,7 @@ public class DataManager {
         connectButton.setText("Connect to Arduino");
 
         if (saveLog) {
-            Logger.writeToFile(trialName, String.format("%f DISCONNECTED\n", elapsedTime()));
+            Logger.writeToFile(logName, String.format("%f DISCONNECTED\n", elapsedTime()));
         }
     }
 
@@ -97,7 +102,7 @@ public class DataManager {
             dynamicBarChartOne.updateValues(dp.voltages);
 
             if (saveLog) {
-                Logger.writeToFile(trialName, String.format("%f %s\n", currentTime, dp.toString()));
+                Logger.writeToFile(logName, String.format("%f %s\n", currentTime, dp.toString()));
             }
         }
     }
