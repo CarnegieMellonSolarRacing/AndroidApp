@@ -27,14 +27,19 @@ public class DataManager {
 
     Button connectButton;
     long startTime;
-
+    String trialName;
+    boolean saveLog;
 
     public DataManager(
             Context context,
+            String trialName,
+            boolean saveLog,
             Button connectButton,
             LineChart chartOne,
             BarChart chartTwo) {
-         this.connectButton = connectButton;
+        this.connectButton = connectButton;
+        this.trialName = trialName;
+        this.saveLog = saveLog;
 
         dataParser = new DataParser();
         startTime = System.currentTimeMillis();
@@ -45,6 +50,13 @@ public class DataManager {
         dynamicLineChartOne = new DynamicLineChart(chartOne, "Current (1)", LINE_CHART_MAX_POINTS);
         ArrayList<String> barChartLabels = new ArrayList<String>(Arrays.asList("A","B"));
         dynamicBarChartOne = new DynamicBarChart(chartTwo, barChartLabels, "Voltages", VOLT_MIN, VOLT_MAX);
+
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onConnectButtonClicked(view);
+            }
+        });
     }
 
     public void onConnectionOpened() {

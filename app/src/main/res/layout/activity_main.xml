@@ -25,30 +25,28 @@
         android:onClick="onConnectButtonClicked"/>
 
     <TextView
-        android:id="@+id/OutputLabel"
+        android:id="@+id/trialLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/header"
-        android:textSize="30dp"
-        android:text="Output 1:" />
-
-    <EditText
-        android:id="@+id/OutputDisplay"
+        android:textSize="20dp"
+        android:text="Trial:" />
+    <TextView
+        android:id="@+id/trialDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/trialLabel"
+        android:layout_marginLeft="10dp"
         android:layout_below="@+id/header"
-        android:layout_toRightOf="@+id/OutputLabel"
-        android:layout_toEndOf="@+id/OutputLabel" />
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:text="test rial" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/currentLineChart"
-        android:layout_below="@+id/OutputDisplay"
+        android:layout_below="@+id/trialDisplay"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 

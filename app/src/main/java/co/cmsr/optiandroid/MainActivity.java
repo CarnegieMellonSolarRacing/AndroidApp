@@ -1,6 +1,7 @@
 package co.cmsr.optiandroid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,8 +16,7 @@ import java.util.Random;
 
 public class MainActivity extends Activity {
     Button connnectButton;
-    TextView textView, dataOutput;
-    EditText editText;
+    TextView trialDisplay;
     LineChart currentLineChart;
     BarChart voltagesBarChart;
     Random random;
@@ -29,21 +29,34 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent i = getIntent();
+        boolean saveLog = i.getBooleanExtra("save_log", false);
+        String name = i.getStringExtra("trial_name");
+
         setContentView(R.layout.activity_main);
 
         connnectButton = (Button) findViewById(R.id.buttonStart);
-        dataOutput = (TextView) findViewById(R.id.OutputDisplay);
+        trialDisplay = (TextView) findViewById(R.id.trialDisplay);
         currentLineChart = (LineChart) findViewById(R.id.currentLineChart);
         voltagesBarChart = (BarChart) findViewById(R.id.voltagesBarChart);
 
-        Initialize();
+        Initialize(name, saveLog);
     }
 
-    protected void Initialize() {
+    protected void Initialize(final String trialName, boolean saveLog) {
         random = new Random();
 
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                trialDisplay.setText(trialName);
+            }
+        });
         dataManager = new DataManager(
                 this,
+                trialName,
+                saveLog,
                 connnectButton,
                 currentLineChart,
                 voltagesBarChart);
