@@ -16,7 +16,7 @@ import java.util.List;
  * Created by jonbuckley on 4/26/17.
  */
 
-public class CurrentChart {
+public class DynamicLineChart {
     List<Entry> entries;
     LineDataSet dataSet;
     LineData lineData;
@@ -28,7 +28,7 @@ public class CurrentChart {
 
     Handler uiHandler;
 
-    public CurrentChart(LineChart lineChart, String name, int maxNumPoints) {
+    public DynamicLineChart(LineChart lineChart, String name, int maxNumPoints) {
         this.name = name;
         this.chart = lineChart;
         this.maxNumPoints = maxNumPoints;

@@ -67,8 +67,9 @@ public class DataParser {
     }
 
     public DataPacket readDataPacket(JsonReader reader) throws IOException {
-        List<Double> currents = null;
-        List<Double> temps = null;
+        List<Double> currents = new ArrayList<Double>();
+        List<Double> temps = new ArrayList<Double>();
+        List<Double> voltages = new ArrayList<Double>();
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -77,12 +78,14 @@ public class DataParser {
                 currents = readCurrents(reader);
             } else if (name.equals("temps")) {
                 temps = readTemps(reader);
+            } else if (name.equals("voltages")) {
+                temps = readVoltages(reader);
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return new DataPacket(temps, currents);
+        return new DataPacket(temps, currents, voltages);
     }
 
     private List<Double> readCurrents(JsonReader reader) throws IOException {
@@ -94,6 +97,17 @@ public class DataParser {
         reader.endArray();
 
         return currents;
+    }
+
+    private List<Double> readVoltages(JsonReader reader) throws IOException {
+        List<Double> voltages = new ArrayList<Double>();
+        reader.beginArray();
+        while (reader.hasNext()) {
+            voltages.add(reader.nextDouble());
+        }
+        reader.endArray();
+
+        return voltages;
     }
 
     private List<Double> readTemps(JsonReader reader) throws IOException {

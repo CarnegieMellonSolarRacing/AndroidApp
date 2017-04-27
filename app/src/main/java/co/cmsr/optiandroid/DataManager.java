@@ -2,11 +2,14 @@ package co.cmsr.optiandroid;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by jonbuckley on 4/26/17.
@@ -14,16 +17,23 @@ import com.github.mikephil.charting.charts.LineChart;
 
 public class DataManager {
     static final int LINE_CHART_MAX_POINTS = 25;
+    static final float VOLT_MIN = 0.0f, VOLT_MAX = 30.0f;
 
     DataParser dataParser;
     ArduinoUsbBridge bridge;
-    CurrentChart currentChartOne;
+
+    DynamicLineChart dynamicLineChartOne;
+    DynamicBarChart dynamicBarChartOne;
 
     Button connectButton;
     long startTime;
 
 
-    public DataManager(Context context, Button connectButton, LineChart chartOne) {
+    public DataManager(
+            Context context,
+            Button connectButton,
+            LineChart chartOne,
+            BarChart chartTwo) {
          this.connectButton = connectButton;
 
         dataParser = new DataParser();
@@ -32,7 +42,9 @@ public class DataManager {
         bridge = new ArduinoUsbBridge(this, context);
 
         // Set up line chart.
-        currentChartOne = new CurrentChart(chartOne, "Current (1)", LINE_CHART_MAX_POINTS);
+        dynamicLineChartOne = new DynamicLineChart(chartOne, "Current (1)", LINE_CHART_MAX_POINTS);
+        ArrayList<String> barChartLabels = new ArrayList<String>(Arrays.asList("A","B"));
+        dynamicBarChartOne = new DynamicBarChart(chartTwo, barChartLabels, "Voltages", VOLT_MIN, VOLT_MAX);
     }
 
     public void onConnectionOpened() {
@@ -60,8 +72,9 @@ public class DataManager {
         if (dp != null) {
             float currentTime = elapsedTime();
 
-            // New datapacket received!
-            currentChartOne.addPoint(currentTime, dp.currents.get(0).floatValue());
+            // New data packet received!
+            dynamicLineChartOne.addPoint(currentTime, dp.currents.get(0).floatValue());
+            dynamicBarChartOne.updateValues(dp.voltages);
         }
     }
 

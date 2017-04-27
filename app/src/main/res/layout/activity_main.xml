@@ -51,4 +51,10 @@
         android:layout_below="@+id/OutputDisplay"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/voltagesBarChart"
+        android:layout_below="@+id/currentLineChart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 </RelativeLayout>
