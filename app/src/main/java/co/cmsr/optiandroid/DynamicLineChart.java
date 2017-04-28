@@ -60,14 +60,19 @@ public class DynamicLineChart {
         lineData.addEntry(new Entry(time, current), 0);
 
         currNumPoints ++;
-        if (currNumPoints > maxNumPoints) {
-            dataSet.removeFirst();
-            dataSet.notifyDataSetChanged();
-            lineData.notifyDataChanged();
-        }
 
-        chart.notifyDataSetChanged();
+        uiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (currNumPoints > maxNumPoints) {
+                    dataSet.removeFirst();
+                    dataSet.notifyDataSetChanged();
+                    lineData.notifyDataChanged();
+                }
 
-        updateUI();
+                chart.notifyDataSetChanged();
+                chart.invalidate();
+            }
+        });
     }
 }

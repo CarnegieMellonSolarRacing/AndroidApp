@@ -78,8 +78,8 @@ public class DataParser {
                 currents = readCurrents(reader);
             } else if (name.equals("temps")) {
                 temps = readTemps(reader);
-            } else if (name.equals("voltages")) {
-                temps = readVoltages(reader);
+            } else if (name.equals("volts")) {
+                voltages = readVoltages(reader);
             } else {
                 reader.skipValue();
             }

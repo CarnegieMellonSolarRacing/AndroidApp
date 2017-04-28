@@ -27,6 +27,8 @@ public class DataManager {
     DynamicLineChart dynamicLineChartOne;
     DynamicBarChart dynamicBarChartOne;
 
+    DataRenderer dataRenderer;
+
     Button connectButton;
     long startTime;
     String logName;
@@ -37,9 +39,11 @@ public class DataManager {
             String trialName,
             boolean saveLog,
             Button connectButton,
+            DataRenderer dataRenderer,
             LineChart chartOne,
             BarChart chartTwo) {
         this.connectButton = connectButton;
+        this.dataRenderer = dataRenderer;
 
         Date today = new Date();
         String dateString = new SimpleDateFormat("dd-MM-yyyy").format(today);
@@ -51,10 +55,10 @@ public class DataManager {
 
         bridge = new ArduinoUsbBridge(this, context);
 
-        // Set up line chart.
-        dynamicLineChartOne = new DynamicLineChart(chartOne, "Current (1)", LINE_CHART_MAX_POINTS);
-        ArrayList<String> barChartLabels = new ArrayList<String>(Arrays.asList("A","B"));
-        dynamicBarChartOne = new DynamicBarChart(chartTwo, barChartLabels, "Voltages", VOLT_MIN, VOLT_MAX);
+//        // Set up line chart.
+//        dynamicLineChartOne = new DynamicLineChart(chartOne, "Currents", LINE_CHART_MAX_POINTS);
+//        ArrayList<String> barChartLabels = new ArrayList<String>(Arrays.asList("A","B"));
+//        dynamicBarChartOne = new DynamicBarChart(chartTwo, barChartLabels, "Voltages", VOLT_MIN, VOLT_MAX);
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +87,11 @@ public class DataManager {
     }
 
     public void onConnectButtonClicked(View view) {
-        bridge.tryConnect();
+        if (!bridge.connected) {
+            bridge.tryConnect();
+        } else {
+            bridge.closeConnection();
+        }
     }
 
     public void onReceivedData(byte[] arg0) {
@@ -97,13 +105,18 @@ public class DataManager {
         if (dp != null) {
             float currentTime = elapsedTime();
 
-            // New data packet received!
-            dynamicLineChartOne.addPoint(currentTime, dp.currents.get(0).floatValue());
-            dynamicBarChartOne.updateValues(dp.voltages);
+            dataRenderer.onPacketParsed(currentTime, new BoatData(dp));
 
-            if (saveLog) {
-                Logger.writeToFile(logName, String.format("%f %s\n", currentTime, dp.toString()));
-            }
+//            if (dp.currents.size() >= 2) {
+//                // New data packet received!
+//                System.out.println(dp.toString()+"\n");
+//                dynamicLineChartOne.addPoint(currentTime, dp.currents.get(1).floatValue());
+//            }
+//            dynamicBarChartOne.updateValues(dp.voltages);
+//
+//            if (saveLog) {
+//                Logger.writeToFile(logName, String.format("%f %s\n", currentTime, dp.toString()));
+//            }
         }
     }
 

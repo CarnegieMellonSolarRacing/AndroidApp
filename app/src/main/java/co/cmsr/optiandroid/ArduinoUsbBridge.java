@@ -122,8 +122,10 @@ public class ArduinoUsbBridge {
         }
     }
 
-    private void closeConnection() {
-        serialPort.close();
+    public void closeConnection() {
+        if (serialPort != null) {
+            serialPort.close();
+        }
 
         connected = false;
 

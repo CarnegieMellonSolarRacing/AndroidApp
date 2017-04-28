@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <co.cmsr.optiandroid.DynamicImageView
+        android:id="@+id/boatGraphic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/boat" />
+
+    <TextView
+        android:id="@+id/solarPanelAPowerDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_bias="0.39"
+        android:text="15 W"
+        android:textSize="40dp"
+        android:textColor="@android:color/primary_text_light"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.09" />
+
+    <TextView
+        android:id="@+id/solarPanelAVoltageDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="61dp"
+        android:layout_marginTop="20dp"
+        android:text="15.0 V"
+        android:textSize="20dp"
+        app:layout_constraintRight_toRightOf="@+id/solarPanelAPowerDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/solarPanelAPowerDisplay" />
+
+    <TextView
+        android:id="@+id/multiplicationSignA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toRightOf="@+id/solarPanelAVoltageDisplay"
+        app:layout_constraintRight_toLeftOf="@+id/solarPanelACurrentDisplay"
+        app:layout_constraintTop_toTopOf="@+id/solarPanelAVoltageDisplay"
+        app:layout_constraintHorizontal_bias="0.511" />
+
+    <TextView
+        android:id="@+id/solarPanelACurrentDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="62dp"
+        android:layout_marginTop="0dp"
+        android:text="03.0 A"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="@+id/solarPanelAPowerDisplay"
+        app:layout_constraintTop_toTopOf="@+id/solarPanelAVoltageDisplay" />
+
+    <TextView
+        android:id="@+id/solarPanelBPowerDisplay"
+        android:layout_width="91dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0.31"
+        android:text="15 W"
+        android:textSize="40dp"
+        android:textColor="@android:color/primary_text_light"
+        app:layout_constraintLeft_toLeftOf="@+id/solarPanelAPowerDisplay"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic" />
+
+    <TextView
+        android:id="@+id/solarPanelBVoltageDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="62dp"
+        android:layout_marginTop="17dp"
+        android:text="05.0 V"
+        android:textSize="20dp"
+        app:layout_constraintRight_toRightOf="@+id/solarPanelBPowerDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/solarPanelBPowerDisplay" />
+
+    <TextView
+        android:id="@+id/multiplicationSignB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toRightOf="@+id/solarPanelBVoltageDisplay"
+        app:layout_constraintRight_toLeftOf="@+id/solarPanelBCurrentDisplay"
+        app:layout_constraintTop_toTopOf="@+id/solarPanelBVoltageDisplay"
+        app:layout_constraintHorizontal_bias="0.511" />
+
+    <TextView
+        android:id="@+id/solarPanelBCurrentDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="62dp"
+        android:layout_marginTop="0dp"
+        android:text="03.0 A"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="@+id/solarPanelBPowerDisplay"
+        app:layout_constraintTop_toTopOf="@+id/solarPanelBVoltageDisplay" />
+
+    <TextView
+        android:id="@+id/batteryChargeCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10 A"
+        android:textSize="40dp"
+        android:textColor="@android:color/primary_text_light"
+        app:layout_constraintLeft_toLeftOf="@+id/solarPanelBPowerDisplay"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.56" />
+
+    <TextView
+        android:id="@+id/motorCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15 W"
+        android:textSize="40dp"
+        android:textColor="@android:color/primary_text_light"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.79" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/batteryAVoltage"
+        android:layout_width="140dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/currentLineChart"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.805" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/batteryBVoltage"
+        android:layout_width="140dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/currentLineChart"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.805" />
+
+</android.support.constraint.ConstraintLayout>

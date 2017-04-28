@@ -44,15 +44,17 @@
         android:textColor="@android:color/black"
         android:text="test rial" />
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/currentLineChart"
-        android:layout_below="@+id/trialDisplay"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
+    <!--<com.github.mikephil.charting.charts.LineChart-->
+        <!--android:id="@+id/currentLineChart"-->
+        <!--android:layout_below="@+id/trialDisplay"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp" />-->
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/voltagesBarChart"
-        android:layout_below="@+id/currentLineChart"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
+    <!--<com.github.mikephil.charting.charts.BarChart-->
+        <!--android:id="@+id/voltagesBarChart"-->
+        <!--android:layout_below="@+id/currentLineChart"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp" />-->
+
+    <include layout="@layout/boat_display" />
 </RelativeLayout>

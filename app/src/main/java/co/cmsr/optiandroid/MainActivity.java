@@ -38,8 +38,8 @@ public class MainActivity extends Activity {
 
         connnectButton = (Button) findViewById(R.id.buttonStart);
         trialDisplay = (TextView) findViewById(R.id.trialDisplay);
-        currentLineChart = (LineChart) findViewById(R.id.currentLineChart);
-        voltagesBarChart = (BarChart) findViewById(R.id.voltagesBarChart);
+//        currentLineChart = (LineChart) findViewById(R.id.currentLineChart);
+//        voltagesBarChart = (BarChart) findViewById(R.id.voltagesBarChart);
 
         Initialize(name, saveLog);
     }
@@ -53,11 +53,14 @@ public class MainActivity extends Activity {
                 trialDisplay.setText(trialName);
             }
         });
+
+        BoatDataRenderer renderer = new BoatDataRenderer(this);
         dataManager = new DataManager(
                 this,
                 trialName,
                 saveLog,
                 connnectButton,
+                renderer,
                 currentLineChart,
                 voltagesBarChart);
 
