@@ -10,13 +10,14 @@
 
     <ImageView
         android:id="@+id/cmsrLogo"
-        android:layout_width="544dp"
-        android:layout_height="132dp"
-        app:srcCompat="@drawable/cmsr_logo"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_max="10dp"
+        app:srcCompat="@drawable/cmsr_logo" />
 
     <TextView
         android:id="@+id/header"
