@@ -129,11 +129,11 @@
         android:textColor="@android:color/primary_text_light"
         android:textSize="@dimen/text_primary"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
-        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintHorizontal_bias="0.771"
         app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
         app:layout_constraintRight_toRightOf="@+id/boatGraphic"
         app:layout_constraintTop_toTopOf="@+id/boatGraphic"
-        app:layout_constraintVertical_bias="0.96" />
+        app:layout_constraintVertical_bias="0.95" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/batteryAVoltage"
@@ -156,5 +156,21 @@
         app:layout_constraintRight_toRightOf="@+id/boatGraphic"
         app:layout_constraintTop_toTopOf="@+id/boatGraphic"
         app:layout_constraintVertical_bias="0.802" />
+
+    <TextView
+        android:id="@+id/speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20.0 mph"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_primary"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.134"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="@dimen/speed_horizontal_bias" />
 
 </android.support.constraint.ConstraintLayout>

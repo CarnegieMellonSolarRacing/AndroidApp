@@ -27,6 +27,7 @@ public class DataManager {
     static final int LINE_CHART_MAX_POINTS = 25;
     static final float VOLT_MIN = 0.0f, VOLT_MAX = 30.0f;
 
+    Context context;
     DataParser dataParser;
     ArduinoUsbBridge bridge;
 
@@ -48,6 +49,7 @@ public class DataManager {
             DataRenderer dataRenderer,
             LineChart chartOne,
             BarChart chartTwo) {
+        this.context = context;
         this.connectButton = connectButton;
         this.dataRenderer = dataRenderer;
 
@@ -111,7 +113,7 @@ public class DataManager {
         if (dp != null) {
             float currentTime = elapsedTime();
 
-            dataRenderer.onPacketParsed(currentTime, new BoatData(dp));
+            dataRenderer.onPacketParsed(currentTime, new BoatData(context, dp));
 
 //            if (dp.currents.size() >= 2) {
 //                // New data packet received!

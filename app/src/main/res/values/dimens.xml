@@ -10,4 +10,6 @@
     <dimen name="text_secondary">10sp</dimen>
 
     <dimen name="battery_chart_height">140dp</dimen>
+
+    <item name="speed_horizontal_bias" format="float" type="dimen">0.97</item>
 </resources>

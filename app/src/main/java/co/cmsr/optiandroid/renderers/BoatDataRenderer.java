@@ -12,6 +12,7 @@ import co.cmsr.optiandroid.displays.BatteryDisplay;
 import co.cmsr.optiandroid.displays.ChargeControllerDisplay;
 import co.cmsr.optiandroid.displays.MotorDisplay;
 import co.cmsr.optiandroid.displays.SolarPanelDisplay;
+import co.cmsr.optiandroid.displays.SpeedDisplay;
 import co.cmsr.optiandroid.renderers.DataRenderer;
 
 /**
@@ -24,6 +25,7 @@ public class BoatDataRenderer implements DataRenderer {
     TextView chargeControllerCurrentDisplay;
     BarChart batteryAVoltageChart, batteryBVoltageChart;
     TextView motorCurrentDisplay;
+    TextView boatSpeedDisplay;
 
     SolarPanelDisplay solarPanelADisplay;
     SolarPanelDisplay solarPanelBDisplay;
@@ -31,6 +33,7 @@ public class BoatDataRenderer implements DataRenderer {
     BatteryDisplay batteryADisplay;
     BatteryDisplay batteryBDisplay;
     MotorDisplay motorDisplay;
+    SpeedDisplay speedDisplay;
 
     volatile boolean uiInitialized;
 
@@ -76,6 +79,8 @@ public class BoatDataRenderer implements DataRenderer {
 
         motorCurrentDisplay = (TextView) activity.findViewById(R.id.motorCurrent);
 
+        boatSpeedDisplay = (TextView) activity.findViewById(R.id.speed);
+
         solarPanelADisplay = new SolarPanelDisplay(
                 solarPanelAPowerDisplay,
                 solarPanelACurrentDisplay,
@@ -89,6 +94,8 @@ public class BoatDataRenderer implements DataRenderer {
         chargeControllerDisplay = new ChargeControllerDisplay(chargeControllerCurrentDisplay);
 
         motorDisplay = new MotorDisplay(motorCurrentDisplay);
+
+        speedDisplay = new SpeedDisplay(boatSpeedDisplay);
     }
 
     @Override

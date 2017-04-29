@@ -1,5 +1,10 @@
 package co.cmsr.optiandroid.datastructures;
 
+import android.app.Activity;
+import android.content.Context;
+
+import co.cmsr.optiandroid.LocationTracker;
+
 /**
  * Created by jonbuckley on 4/28/17.
  */
@@ -30,7 +35,9 @@ public class BoatData {
 
     public double motorCurrent;
 
-    public BoatData(DataPacket dp) {
+    public double speed;
+
+    public BoatData(Context context, DataPacket dp) {
         int numCurrents = dp.currents.size();
         int numVoltages = dp.voltages.size();
 
@@ -55,6 +62,12 @@ public class BoatData {
 
         if (numCurrents > MOTOR_CURRENT_INDEX) {
             motorCurrent = dp.currents.get(MOTOR_CURRENT_INDEX);
+        }
+
+        speed = -1.0f;
+        LocationTracker tracker = LocationTracker.getInstance((Activity) context);
+        if (tracker.isEnabled()) {
+            speed = tracker.getSpeedMph();
         }
     }
 }
