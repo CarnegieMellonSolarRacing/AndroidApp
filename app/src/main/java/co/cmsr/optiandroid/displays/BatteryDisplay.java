@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.constraint.ConstraintLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -25,9 +26,12 @@ import co.cmsr.optiandroid.R;
 
 public class BatteryDisplay {
     BarChart barChart;
+    TextView voltageDisplay;
     DynamicBarChart dynamicBarChart;
     Handler uiHandler;
     volatile List<Double> voltages;
+
+    private static final boolean USE_CHART_VALUES = false;
 
     public static final float BAR_CHART_WIDTH_FRACTION = 0.37f;
     public static final float BAR_CHART_HEIGHT_FRACTION = 0.142f;
@@ -39,8 +43,14 @@ public class BatteryDisplay {
     DecimalFormat decimalFormatter;
     ArgbEvaluator colorInterpolater;
 
-    public BatteryDisplay(BarChart barChart, String name, int graphicWidth, int graphicHeight) {
+    public BatteryDisplay(
+            BarChart barChart,
+            TextView voltageDisplay,
+            String name,
+            int graphicWidth,
+            int graphicHeight) {
         this.barChart = barChart;
+        this.voltageDisplay = voltageDisplay;
 
         ConstraintLayout.LayoutParams barChartLayoutParams = (ConstraintLayout.LayoutParams)
                 barChart.getLayoutParams();
@@ -69,26 +79,31 @@ public class BatteryDisplay {
         dynamicBarChart.chart.getXAxis().setEnabled(false);
         // Fill entire graph.
         dynamicBarChart.chart.setFitBars(false);
-        // Put labels below chart.
-        dynamicBarChart.chart.setDrawValueAboveBar(false);
-        // Set value formatting.
+
         decimalFormatter = new DecimalFormat("00.0");
-        dynamicBarChart.barData.setValueFormatter(new IValueFormatter() {
-            @Override
-            public String getFormattedValue(
-                    float value,
-                    Entry entry,
-                    int dataSetIndex,
-                    ViewPortHandler viewPortHandler) {
-                return decimalFormatter.format(value) + " V";
-            }
-        });
-        float secondaryTextSize = barChart.getResources().getDimension(R.dimen.text_secondary);
-        dynamicBarChart.barData.setValueTextSize(secondaryTextSize / 1.0f);
+
+        if (USE_CHART_VALUES) {
+            // Put labels below chart.
+            dynamicBarChart.chart.setDrawValueAboveBar(false);
+            // Set value formatting.
+            dynamicBarChart.barData.setValueFormatter(new IValueFormatter() {
+                @Override
+                public String getFormattedValue(
+                        float value,
+                        Entry entry,
+                        int dataSetIndex,
+                        ViewPortHandler viewPortHandler) {
+                    return decimalFormatter.format(value) + " V";
+                }
+            });
+            float secondaryTextSize = barChart.getResources().getDimension(R.dimen.text_secondary);
+            dynamicBarChart.barData.setValueTextSize(secondaryTextSize / 1.0f);
+        } else {
+            dynamicBarChart.barData.setDrawValues(false);
+        }
+
         // Re-layout.
         dynamicBarChart.chart.requestLayout();
-
-        dynamicBarChart.dataSet.setColor(0xFF0000);
 
         voltages = new ArrayList<>();
         voltages.add(new Double(0.0));
@@ -96,6 +111,9 @@ public class BatteryDisplay {
         colorInterpolater = new ArgbEvaluator();
 
         uiHandler = new Handler(Looper.getMainLooper());
+
+        // Initialize display.
+        updateDisplay(0.0);
     }
 
     public void updateDisplay(final double voltage) {
@@ -112,6 +130,8 @@ public class BatteryDisplay {
                 int colorToSet = ColorTemplate.rgb(Integer.toHexString(hexColor));
                 dynamicBarChart.dataSet.setColor(colorToSet);
                 dynamicBarChart.updateValues(voltages);
+
+                voltageDisplay.setText(decimalFormatter.format(voltage) + " V");
             }
         });
     }

@@ -24,6 +24,7 @@ public class BoatDataRenderer implements DataRenderer {
     TextView solarPanelBPowerDisplay, solarPanelBCurrentDisplay, solarPanelBVoltageDisplay;
     TextView chargeControllerCurrentDisplay;
     BarChart batteryAVoltageChart, batteryBVoltageChart;
+    TextView batteryAVoltageTextView, batteryBVoltageTextView;
     TextView motorCurrentDisplay;
     TextView boatSpeedDisplay;
 
@@ -42,6 +43,9 @@ public class BoatDataRenderer implements DataRenderer {
 
         final ImageView boatGraphic = (ImageView) activity.findViewById(R.id.boatGraphic);
 
+        batteryAVoltageTextView = (TextView) activity.findViewById(R.id.batteryAVoltage);
+        batteryBVoltageTextView = (TextView) activity.findViewById(R.id.batteryBVoltage);
+
         boatGraphic.post(new Runnable() {
             @Override
             public void run() {
@@ -50,12 +54,14 @@ public class BoatDataRenderer implements DataRenderer {
 
                 batteryADisplay = new BatteryDisplay(
                         batteryAVoltageChart,
+                        batteryAVoltageTextView,
                         "Battery A",
                         graphicWidth,
                         graphicHeight);
 
                 batteryBDisplay = new BatteryDisplay(
                         batteryBVoltageChart,
+                        batteryBVoltageTextView,
                         "Battery B",
                         graphicWidth,
                         graphicHeight);
@@ -68,14 +74,14 @@ public class BoatDataRenderer implements DataRenderer {
         solarPanelACurrentDisplay = (TextView) activity.findViewById(R.id.solarPanelACurrentDisplay);
         solarPanelAVoltageDisplay = (TextView) activity.findViewById(R.id.solarPanelAVoltageDisplay);
 
-        solarPanelBPowerDisplay = (TextView) activity.findViewById(R.id.solarPanelBPowerDisplay);
-        solarPanelBCurrentDisplay = (TextView) activity.findViewById(R.id.solarPanelBCurrentDisplay);
-        solarPanelBVoltageDisplay = (TextView) activity.findViewById(R.id.solarPanelBVoltageDisplay);
+//        solarPanelBPowerDisplay = (TextView) activity.findViewById(R.id.solarPanelBPowerDisplay);
+//        solarPanelBCurrentDisplay = (TextView) activity.findViewById(R.id.solarPanelBCurrentDisplay);
+//        solarPanelBVoltageDisplay = (TextView) activity.findViewById(R.id.solarPanelBVoltageDisplay);
 
         chargeControllerCurrentDisplay = (TextView) activity.findViewById(R.id.batteryChargeCurrent);
 
-        batteryAVoltageChart = (BarChart) activity.findViewById(R.id.batteryAVoltage);
-        batteryBVoltageChart = (BarChart) activity.findViewById(R.id.batteryBVoltage);
+        batteryAVoltageChart = (BarChart) activity.findViewById(R.id.batteryAVoltageChart);
+        batteryBVoltageChart = (BarChart) activity.findViewById(R.id.batteryBVoltageChart);
 
         motorCurrentDisplay = (TextView) activity.findViewById(R.id.motorCurrent);
 
@@ -86,10 +92,10 @@ public class BoatDataRenderer implements DataRenderer {
                 solarPanelACurrentDisplay,
                 solarPanelAVoltageDisplay);
 
-        solarPanelBDisplay = new SolarPanelDisplay(
-                solarPanelBPowerDisplay,
-                solarPanelBCurrentDisplay,
-                solarPanelBVoltageDisplay);
+//        solarPanelBDisplay = new SolarPanelDisplay(
+//                solarPanelBPowerDisplay,
+//                solarPanelBCurrentDisplay,
+//                solarPanelBVoltageDisplay);
 
         chargeControllerDisplay = new ChargeControllerDisplay(chargeControllerCurrentDisplay);
 
@@ -102,7 +108,7 @@ public class BoatDataRenderer implements DataRenderer {
     public void onPacketParsed(float elapsedTime, BoatData dp) {
         if (uiInitialized) {
             solarPanelADisplay.updateDisplay(dp.solarPanelACurrent, dp.solarPanelAVoltage);
-            solarPanelBDisplay.updateDisplay(dp.solarPanelBCurrent, dp.solarPanelBVoltage);
+//            solarPanelBDisplay.updateDisplay(dp.solarPanelBCurrent, dp.solarPanelBVoltage);
             chargeControllerDisplay.updateDisplay(dp.chargeControllerCurrent);
             batteryADisplay.updateDisplay(dp.batteryAVoltage);
             batteryBDisplay.updateDisplay(dp.batteryBVoltage);

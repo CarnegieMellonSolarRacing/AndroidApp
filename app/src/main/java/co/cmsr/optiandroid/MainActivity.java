@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
     volatile DataManager dataManager;
 
     public static final String TAG = "AndroidOpti";
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
