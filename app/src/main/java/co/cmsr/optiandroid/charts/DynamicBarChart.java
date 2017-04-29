@@ -1,4 +1,4 @@
-package co.cmsr.optiandroid;
+package co.cmsr.optiandroid.charts;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -25,9 +25,9 @@ import static android.R.attr.entries;
 
 public class DynamicBarChart {
     List<BarEntry> entries;
-    BarDataSet dataSet;
-    BarData barData;
-    BarChart chart;
+    public BarDataSet dataSet;
+    public BarData barData;
+    public BarChart chart;
 
     float minValue, maxValue;
 
@@ -54,7 +54,7 @@ public class DynamicBarChart {
 
         dataSet = new BarDataSet(entries, name);
         barData = new BarData(dataSet);
-        barData.setBarWidth(0.9f); // 10% margin between bars
+        barData.setBarWidth(1.0f);
         chart.setData(barData);
         chart.setFitBars(true);
 

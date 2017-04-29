@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -13,6 +12,9 @@ import com.github.mikephil.charting.charts.LineChart;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import co.cmsr.optiandroid.datastructures.DataPacket;
+import co.cmsr.optiandroid.renderers.BoatDataRenderer;
 
 public class MainActivity extends Activity {
     Button connnectButton;
@@ -97,16 +99,20 @@ public class MainActivity extends Activity {
         List<Double> currents = new ArrayList<Double>();
         currents.add(new Double(random.nextDouble()));
         currents.add(new Double(random.nextDouble()));
+        currents.add(new Double(random.nextDouble()));
+        currents.add(new Double(random.nextDouble()));
 
         List<Double> temps = new ArrayList<Double>();
         temps.add(new Double(random.nextDouble()));
         temps.add(new Double(random.nextDouble()));
 
         List<Double> voltages = new ArrayList<Double>();
-        voltages.add(new Double(random.nextDouble() * 30));
-        voltages.add(new Double(random.nextDouble() * 30));
+        voltages.add(new Double(random.nextDouble() * 12));
+        voltages.add(new Double(random.nextDouble() * 12));
+        voltages.add(new Double(random.nextDouble() * 12));
+        voltages.add(new Double(random.nextDouble() * 12));
 
-        DataPacket dp = new DataPacket(currents, temps, voltages);
+        DataPacket dp = new DataPacket(temps, currents, voltages);
 
         return dp;
     }

@@ -1,4 +1,4 @@
-package co.cmsr.optiandroid;
+package co.cmsr.optiandroid.communication;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -16,6 +16,8 @@ import com.felhr.usbserial.UsbSerialInterface;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.cmsr.optiandroid.DataManager;
+
 /**
  * Created by jonbuckley on 4/26/17.
  */
@@ -30,7 +32,7 @@ public class ArduinoUsbBridge {
     UsbDevice device;
     UsbSerialDevice serialPort;
     UsbDeviceConnection connection;
-    boolean connected;
+    public boolean connected;
 
     public ArduinoUsbBridge(DataManager dataManager, Context context) {
         this.dataManager = dataManager;

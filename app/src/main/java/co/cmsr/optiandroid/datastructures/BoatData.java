@@ -1,4 +1,4 @@
-package co.cmsr.optiandroid;
+package co.cmsr.optiandroid.datastructures;
 
 /**
  * Created by jonbuckley on 4/28/17.
@@ -13,12 +13,22 @@ public class BoatData {
 
     public static final int CHARGE_CONTROLLER_CURRENT_INDEX = 2;
 
+    public static final int BATTERY_A_VOLTAGE_INDEX = 2;
+    public static final int BATTERY_B_VOLTAGE_INDEX = 3;
+
+    public static final int MOTOR_CURRENT_INDEX = 3;
+
     public double solarPanelACurrent;
     public double solarPanelAVoltage;
     public double solarPanelBCurrent;
     public double solarPanelBVoltage;
 
     public double chargeControllerCurrent;
+
+    public double batteryAVoltage;
+    public double batteryBVoltage;
+
+    public double motorCurrent;
 
     public BoatData(DataPacket dp) {
         int numCurrents = dp.currents.size();
@@ -36,6 +46,15 @@ public class BoatData {
 
         if (numCurrents > CHARGE_CONTROLLER_CURRENT_INDEX) {
             chargeControllerCurrent = dp.currents.get(CHARGE_CONTROLLER_CURRENT_INDEX);
+        }
+
+        if (numVoltages > BATTERY_B_VOLTAGE_INDEX) {
+            batteryAVoltage = dp.voltages.get(BATTERY_A_VOLTAGE_INDEX);
+            batteryBVoltage = dp.voltages.get(BATTERY_B_VOLTAGE_INDEX);
+        }
+
+        if (numCurrents > MOTOR_CURRENT_INDEX) {
+            motorCurrent = dp.currents.get(MOTOR_CURRENT_INDEX);
         }
     }
 }

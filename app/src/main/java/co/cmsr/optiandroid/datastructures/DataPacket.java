@@ -1,4 +1,4 @@
-package co.cmsr.optiandroid;
+package co.cmsr.optiandroid.datastructures;
 
 import java.util.List;
 

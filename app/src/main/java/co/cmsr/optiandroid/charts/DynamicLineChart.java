@@ -1,4 +1,4 @@
-package co.cmsr.optiandroid;
+package co.cmsr.optiandroid.charts;
 
 import android.os.Handler;
 import android.os.Looper;

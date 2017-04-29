@@ -9,9 +9,15 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+
+import co.cmsr.optiandroid.charts.DynamicBarChart;
+import co.cmsr.optiandroid.charts.DynamicLineChart;
+import co.cmsr.optiandroid.communication.ArduinoUsbBridge;
+import co.cmsr.optiandroid.communication.DataParser;
+import co.cmsr.optiandroid.datastructures.BoatData;
+import co.cmsr.optiandroid.datastructures.DataPacket;
+import co.cmsr.optiandroid.renderers.DataRenderer;
 
 /**
  * Created by jonbuckley on 4/26/17.

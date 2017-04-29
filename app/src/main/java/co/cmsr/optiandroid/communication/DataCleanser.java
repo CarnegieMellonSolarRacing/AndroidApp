@@ -1,4 +1,4 @@
-package co.cmsr.optiandroid;
+package co.cmsr.optiandroid.communication;
 
 import java.util.ArrayList;
 import java.util.List;

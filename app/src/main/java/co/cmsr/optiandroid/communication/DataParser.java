@@ -1,6 +1,5 @@
-package co.cmsr.optiandroid;
+package co.cmsr.optiandroid.communication;
 
-import android.provider.ContactsContract;
 import android.util.JsonReader;
 
 import java.io.ByteArrayInputStream;
@@ -10,8 +9,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+
+import co.cmsr.optiandroid.datastructures.DataPacket;
 
 /**
  * Created by jonbuckley on 4/9/17.

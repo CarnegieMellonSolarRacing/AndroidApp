@@ -1,4 +1,6 @@
-package co.cmsr.optiandroid;
+package co.cmsr.optiandroid.renderers;
+
+import co.cmsr.optiandroid.datastructures.BoatData;
 
 /**
  * Created by jonbuckley on 4/28/17.
