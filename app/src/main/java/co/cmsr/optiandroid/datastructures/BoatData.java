@@ -63,6 +63,7 @@ public class BoatData {
         if (numCurrents > MOTOR_CURRENT_INDEX) {
             motorCurrent = dp.currents.get(MOTOR_CURRENT_INDEX);
         }
+//        System.out.printf("%f %f %f\n", solarPanelACurrent, solarPanelBCurrent, chargeControllerCurrent);
 
         speed = -1.0f;
         LocationTracker tracker = LocationTracker.getInstance((Activity) context);

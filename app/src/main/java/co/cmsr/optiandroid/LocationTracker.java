@@ -26,6 +26,7 @@ public class LocationTracker implements LocationListener {
     private static LocationTracker instance;
     private float speed;
     private boolean enabled;
+    private boolean gpsEnabled;
 
     public static LocationTracker getInstance(Activity mainActivity) {
         if (instance == null) {
@@ -67,11 +68,21 @@ public class LocationTracker implements LocationListener {
         }
         LocationManager lm = (LocationManager) mainActivity.getSystemService(Context.LOCATION_SERVICE);
         lm.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            MIN_DISTANCE_CHANGE_FOR_UPDATES,
-            MIN_TIME_BW_UPDATES,
-            this,
-            Looper.getMainLooper());
+                LocationManager.NETWORK_PROVIDER,
+                MIN_DISTANCE_CHANGE_FOR_UPDATES,
+                MIN_TIME_BW_UPDATES,
+                this,
+                Looper.getMainLooper());
+
+        gpsEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (gpsEnabled) {
+            lm.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES,
+                    MIN_TIME_BW_UPDATES,
+                    this,
+                    Looper.getMainLooper());
+        }
     }
 
     public boolean isEnabled() {

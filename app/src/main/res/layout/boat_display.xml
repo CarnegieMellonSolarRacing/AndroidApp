@@ -133,7 +133,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
         app:layout_constraintRight_toRightOf="@+id/boatGraphic"
         app:layout_constraintTop_toTopOf="@+id/boatGraphic"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.96" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/batteryAVoltage"

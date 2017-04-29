@@ -23,6 +23,9 @@ public class SolarPanelDisplay {
         decimalFormatter = new DecimalFormat("00.0");
 
         uiHandler = new Handler(Looper.getMainLooper());
+
+        // Initialize to 0.
+        updateDisplay(0.0, 0.0);
     }
 
     public void updateDisplay(double current, double voltage) {
