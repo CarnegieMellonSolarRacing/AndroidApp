@@ -107,10 +107,10 @@ public class MainActivity extends Activity {
         temps.add(new Double(random.nextDouble()));
 
         List<Double> voltages = new ArrayList<Double>();
-        voltages.add(new Double(random.nextDouble() * 12));
-        voltages.add(new Double(random.nextDouble() * 12));
-        voltages.add(new Double(random.nextDouble() * 12));
-        voltages.add(new Double(random.nextDouble() * 12));
+        voltages.add(new Double(random.nextDouble() * 17));
+        voltages.add(new Double(random.nextDouble() * 17));
+        voltages.add(new Double(random.nextDouble() * 17));
+        voltages.add(new Double(random.nextDouble() * 17));
 
         DataPacket dp = new DataPacket(temps, currents, voltages);
 

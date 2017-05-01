@@ -27,8 +27,10 @@ public class MotorDisplay {
         updateDisplay(0.0);
     }
 
-    public void updateDisplay(double current) {
-        final String currentString = decimalFormatter.format(current) + " A";
+    public void updateDisplay(Double current) {
+        final String currentString =
+                current != null ?
+                        decimalFormatter.format(current) + " A" : "--";
 
         uiHandler.post(new Runnable() {
             @Override

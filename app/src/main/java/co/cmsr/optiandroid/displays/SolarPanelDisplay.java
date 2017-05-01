@@ -28,19 +28,36 @@ public class SolarPanelDisplay {
         updateDisplay(0.0, 0.0);
     }
 
-    public void updateDisplay(double current, double voltage) {
-        double power = current * voltage;
-        final String powerString = decimalFormatter.format(power) + " W";
-        final String currentString = decimalFormatter.format(current) + " A";
-        final String voltageString = decimalFormatter.format(voltage) + " V";
+    public void updateDisplay(Double current, double voltage) {
+        if (current != null) {
+            double power = current * voltage;
 
-        uiHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                powerDisplay.setText(powerString);
-                currentDisplay.setText(currentString);
-                voltageDisplay.setText(voltageString);
-            }
-        });
+            final String powerString = decimalFormatter.format(power) + " W";
+            final String currentString = decimalFormatter.format(current) + " A";
+            final String voltageString = decimalFormatter.format(voltage) + " V";
+
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    powerDisplay.setText(powerString);
+                    currentDisplay.setText(currentString);
+                    voltageDisplay.setText(voltageString);
+                }
+            });
+        } else {
+            final String powerString = "--";
+            final String currentString = "--";
+            final String voltageString = "--";
+
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    powerDisplay.setText(powerString);
+                    currentDisplay.setText(currentString);
+                    voltageDisplay.setText(voltageString);
+                }
+            });
+        }
+
     }
 }

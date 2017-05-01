@@ -30,13 +30,12 @@ public class BatteryDisplay {
     DynamicBarChart dynamicBarChart;
     Handler uiHandler;
     volatile List<Double> voltages;
+    float voltMin, voltMax;
 
     private static final boolean USE_CHART_VALUES = false;
 
     public static final float BAR_CHART_WIDTH_FRACTION = 0.37f;
     public static final float BAR_CHART_HEIGHT_FRACTION = 0.142f;
-    public static final float VOLT_MIN = 0.0f;
-    public static final float VOLT_MAX = 12.0f;
     public static final int VOLT_MAX_COLOR = 0x06b703;
     public static final int VOLT_MIN_COLOR = 0xff9030;
 
@@ -48,7 +47,9 @@ public class BatteryDisplay {
             TextView voltageDisplay,
             String name,
             int graphicWidth,
-            int graphicHeight) {
+            int graphicHeight,
+            float voltMin,
+            float voltMax) {
         this.barChart = barChart;
         this.voltageDisplay = voltageDisplay;
 
@@ -67,8 +68,8 @@ public class BatteryDisplay {
                 this.barChart,
                 labels,
                 name,
-                VOLT_MIN,
-                VOLT_MAX);
+                voltMin,
+                voltMax);
         // Disable borders and background.
         dynamicBarChart.chart.setDrawGridBackground(false);
         dynamicBarChart.chart.setDrawBorders(false);
@@ -122,7 +123,7 @@ public class BatteryDisplay {
         uiHandler.post(new Runnable() {
             @Override
             public void run() {
-                float t = (float) voltage / (float) VOLT_MAX;
+                float t = (float) voltage / (voltMax - voltMin);
                 int hexColor = (int) colorInterpolater.evaluate(
                         t,
                         VOLT_MIN_COLOR,

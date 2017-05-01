@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -33,8 +34,9 @@ public class ChargeControllerDisplay {
         updateDisplay(0.0);
     }
 
-    public void updateDisplay(double current) {
-        final String currentString = decimalFormatter.format(current) + " A";
+    public void updateDisplay(Double current) {
+        final String currentString = current != null
+                ? decimalFormatter.format(current) + " A" : "--";
 
         uiHandler.post(new Runnable() {
             @Override

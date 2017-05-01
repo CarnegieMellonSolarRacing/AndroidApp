@@ -15,8 +15,12 @@ import co.cmsr.optiandroid.charts.DynamicBarChart;
 import co.cmsr.optiandroid.charts.DynamicLineChart;
 import co.cmsr.optiandroid.communication.ArduinoUsbBridge;
 import co.cmsr.optiandroid.communication.DataParser;
+import co.cmsr.optiandroid.communication.DataProcessor;
 import co.cmsr.optiandroid.datastructures.BoatData;
+import co.cmsr.optiandroid.datastructures.BoatMap;
 import co.cmsr.optiandroid.datastructures.DataPacket;
+import co.cmsr.optiandroid.datastructures.LocalDataGenerator;
+import co.cmsr.optiandroid.datastructures.LocalDataPacket;
 import co.cmsr.optiandroid.renderers.DataRenderer;
 
 /**
@@ -25,7 +29,9 @@ import co.cmsr.optiandroid.renderers.DataRenderer;
 
 public class DataManager {
     static final int LINE_CHART_MAX_POINTS = 25;
-    static final float VOLT_MIN = 0.0f, VOLT_MAX = 30.0f;
+    static final float VOLT_MIN = 0.0f, VOLT_MAX = 17.0f;
+    static final double[] CURRENT_SLOPES = { 1.0, 1.0, 1.0, 1.0 };
+    static final int CALIBRATION_WINDOW_SIZE = 5;
 
     Context context;
     DataParser dataParser;
@@ -34,6 +40,8 @@ public class DataManager {
     DynamicLineChart dynamicLineChartOne;
     DynamicBarChart dynamicBarChartOne;
 
+    DataProcessor dataProcessor;
+    LocalDataGenerator localDataGenerator;
     DataRenderer dataRenderer;
 
     Button connectButton;
@@ -59,14 +67,14 @@ public class DataManager {
         this.saveLog = saveLog;
 
         dataParser = new DataParser();
+        dataProcessor = new DataProcessor(
+                BoatMap.NUM_CURRENTS,
+                CALIBRATION_WINDOW_SIZE,
+                CURRENT_SLOPES);
+        localDataGenerator = new LocalDataGenerator(context);
         startTime = System.currentTimeMillis();
 
         bridge = new ArduinoUsbBridge(this, context);
-
-//        // Set up line chart.
-//        dynamicLineChartOne = new DynamicLineChart(chartOne, "Currents", LINE_CHART_MAX_POINTS);
-//        ArrayList<String> barChartLabels = new ArrayList<String>(Arrays.asList("A","B"));
-//        dynamicBarChartOne = new DynamicBarChart(chartTwo, barChartLabels, "Voltages", VOLT_MIN, VOLT_MAX);
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,14 +121,16 @@ public class DataManager {
         if (dp != null) {
             float currentTime = elapsedTime();
 
-            dataRenderer.onPacketParsed(currentTime, new BoatData(context, dp));
-
-//            if (dp.currents.size() >= 2) {
-//                // New data packet received!
-//                System.out.println(dp.toString()+"\n");
-//                dynamicLineChartOne.addPoint(currentTime, dp.currents.get(1).floatValue());
-//            }
-//            dynamicBarChartOne.updateValues(dp.voltages);
+            // This will modify dp to be cleansed.
+            dataProcessor.onDataPacketReceievd(dp);
+            // Gather local data.
+            LocalDataPacket ldp = localDataGenerator.gatherLocalData();
+            // Display the data.
+            dataRenderer.onPacketParsed(currentTime, new BoatData(
+                    context,
+                    dataProcessor.isCalibrated(),
+                    dp /* Data Packet */,
+                    ldp) /* Local Data Packet */);
 //
 //            if (saveLog) {
 //                Logger.writeToFile(logName, String.format("%f %s\n", currentTime, dp.toString()));

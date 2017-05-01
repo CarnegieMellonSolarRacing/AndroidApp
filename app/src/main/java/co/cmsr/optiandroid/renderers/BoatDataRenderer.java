@@ -107,12 +107,15 @@ public class BoatDataRenderer implements DataRenderer {
     @Override
     public void onPacketParsed(float elapsedTime, BoatData dp) {
         if (uiInitialized) {
-            solarPanelADisplay.updateDisplay(dp.solarPanelACurrent, dp.solarPanelAVoltage);
+            solarPanelADisplay.updateDisplay(
+                    dp.currentsCalibrated ? dp.solarPanelACurrent : null,
+                    dp.solarPanelAVoltage);
 //            solarPanelBDisplay.updateDisplay(dp.solarPanelBCurrent, dp.solarPanelBVoltage);
-            chargeControllerDisplay.updateDisplay(dp.chargeControllerCurrent);
+            chargeControllerDisplay.updateDisplay(
+                    dp.currentsCalibrated ? dp.chargeControllerCurrent : null);
             batteryADisplay.updateDisplay(dp.batteryAVoltage);
             batteryBDisplay.updateDisplay(dp.batteryBVoltage);
-            motorDisplay.updateDisplay(dp.motorCurrent);
+            motorDisplay.updateDisplay(dp.currentsCalibrated ? dp.motorCurrent : null);
         }
     }
 }
