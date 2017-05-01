@@ -11,6 +11,7 @@ public class BoatConfig {
     private static final int NUM_TEMPERATURES = 3;
 
     private static final float BATTERY_VOLT_MIN = 0.0f, BATTERY_VOLT_MAX = 17.0f;
+    private static final float PANEL_TEMP_MIN = 15.0f, PANEL_TEMP_MAX = 40.0f;
     // END BOAT CONFIG
 
     public int numCurrents;
@@ -20,6 +21,9 @@ public class BoatConfig {
     public float batteryMaxVoltage;
     public float batteryMinVoltage;
 
+    public float panelMaxTemperature;
+    public float panelMinTemperature;
+
     public BoatConfig(boolean fillWithDefaults) {
         if (fillWithDefaults) {
             numCurrents = NUM_CURRENTS;
@@ -28,6 +32,9 @@ public class BoatConfig {
 
             batteryMaxVoltage = BATTERY_VOLT_MAX;
             batteryMinVoltage = BATTERY_VOLT_MIN;
+
+            panelMaxTemperature = PANEL_TEMP_MAX;
+            panelMinTemperature = PANEL_TEMP_MIN;
         }
     }
 }

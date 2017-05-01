@@ -14,6 +14,7 @@ import co.cmsr.optiandroid.displays.ChargeControllerDisplay;
 import co.cmsr.optiandroid.displays.MotorDisplay;
 import co.cmsr.optiandroid.displays.SolarPanelDisplay;
 import co.cmsr.optiandroid.displays.SpeedDisplay;
+import co.cmsr.optiandroid.displays.TemperatureDisplay;
 import co.cmsr.optiandroid.renderers.DataRenderer;
 
 /**
@@ -26,6 +27,8 @@ public class BoatDataRenderer implements DataRenderer {
     TextView chargeControllerCurrentDisplay;
     BarChart batteryAVoltageChart, batteryBVoltageChart;
     TextView batteryAVoltageTextView, batteryBVoltageTextView;
+    BarChart solarPanelATemperatureChart, solarPanelBTemperatureChart;
+    TextView solarPanelATemperatureTextView, solarPanelBTemperatureTextView;
     TextView motorCurrentDisplay;
     TextView boatSpeedDisplay;
 
@@ -34,6 +37,8 @@ public class BoatDataRenderer implements DataRenderer {
     ChargeControllerDisplay chargeControllerDisplay;
     BatteryDisplay batteryADisplay;
     BatteryDisplay batteryBDisplay;
+    TemperatureDisplay solarPanelATemperatureDisplay;
+    TemperatureDisplay solarPanelBTemperatureDisplay;
     MotorDisplay motorDisplay;
     SpeedDisplay speedDisplay;
 
@@ -46,6 +51,11 @@ public class BoatDataRenderer implements DataRenderer {
 
         batteryAVoltageTextView = (TextView) activity.findViewById(R.id.batteryAVoltage);
         batteryBVoltageTextView = (TextView) activity.findViewById(R.id.batteryBVoltage);
+
+        solarPanelATemperatureChart = (BarChart) activity.findViewById(R.id.solarPanelATemperatureChart);
+        solarPanelBTemperatureChart = (BarChart) activity.findViewById(R.id.solarPanelBTemperatureChart);
+        solarPanelATemperatureTextView = (TextView) activity.findViewById(R.id.solarPanelATemperature);
+        solarPanelBTemperatureTextView = (TextView) activity.findViewById(R.id.solarPanelBTemperature);
 
         boatGraphic.post(new Runnable() {
             @Override
@@ -70,6 +80,24 @@ public class BoatDataRenderer implements DataRenderer {
                         graphicHeight,
                         boatConfig.batteryMinVoltage,
                         boatConfig.batteryMaxVoltage);
+
+                solarPanelATemperatureDisplay = new TemperatureDisplay(
+                        solarPanelATemperatureChart,
+                        solarPanelATemperatureTextView,
+                        "Solar Panel A",
+                        graphicWidth,
+                        graphicHeight,
+                        boatConfig.panelMinTemperature,
+                        boatConfig.panelMaxTemperature);
+
+                solarPanelBTemperatureDisplay = new TemperatureDisplay(
+                        solarPanelBTemperatureChart,
+                        solarPanelBTemperatureTextView,
+                        "Solar Panel B",
+                        graphicWidth,
+                        graphicHeight,
+                        boatConfig.panelMinTemperature,
+                        boatConfig.panelMaxTemperature);
 
                 uiInitialized = true;
             }
@@ -120,6 +148,8 @@ public class BoatDataRenderer implements DataRenderer {
             batteryADisplay.updateDisplay(dp.batteryAVoltage);
             batteryBDisplay.updateDisplay(dp.batteryBVoltage);
             motorDisplay.updateDisplay(dp.currentsCalibrated ? dp.motorCurrent : null);
+            solarPanelATemperatureDisplay.updateDisplay(dp.panelATemperature);
+            solarPanelBTemperatureDisplay.updateDisplay(dp.panelBTemperature);
         }
     }
 }

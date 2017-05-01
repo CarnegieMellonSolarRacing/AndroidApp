@@ -203,4 +203,78 @@
         app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
         app:layout_constraintHorizontal_bias="@dimen/speed_horizontal_bias" />
 
+    <ImageView
+        android:id="@+id/solarPanelAThermometer"
+        android:layout_width="50dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.37"
+        app:srcCompat="@drawable/thermometer" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/solarPanelATemperatureChart"
+        android:layout_width="140dp"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.38" />
+
+    <TextView
+        android:id="@+id/solarPanelATemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10 C"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_secondary"
+        app:layout_constraintBottom_toBottomOf="@+id/solarPanelATemperatureChart"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="@+id/solarPanelATemperatureChart"
+        app:layout_constraintTop_toTopOf="@+id/solarPanelATemperatureChart"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintRight_toRightOf="@+id/solarPanelATemperatureChart" />
+
+    <ImageView
+        android:id="@+id/solarPanelBThermometer"
+        android:layout_width="50dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.57"
+        app:srcCompat="@drawable/thermometer" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/solarPanelBTemperatureChart"
+        android:layout_width="140dp"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.56" />
+
+    <TextView
+        android:id="@+id/solarPanelBTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10 C"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_secondary"
+        app:layout_constraintBottom_toBottomOf="@+id/solarPanelBTemperatureChart"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="@+id/solarPanelBTemperatureChart"
+        app:layout_constraintTop_toTopOf="@+id/solarPanelBTemperatureChart"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintRight_toRightOf="@+id/solarPanelBTemperatureChart" />
+
 </android.support.constraint.ConstraintLayout>

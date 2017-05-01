@@ -22,6 +22,9 @@ public class BoatData {
 
     public double motorCurrent;
 
+    public double panelATemperature;
+    public double panelBTemperature;
+
     public double speed;
 
     public static BoatData generateBoatData(
@@ -36,6 +39,7 @@ public class BoatData {
 
         int numCurrents = dp.currents.size();
         int numVoltages = dp.voltages.size();
+        int numTemps = dp.temps.size();
 
         if (numCurrents > boatMap.solarPanelVoltageIndex) {
             bd.solarPanelCurrent = dp.currents.get(boatMap.solarPanelVoltageIndex);
@@ -58,6 +62,11 @@ public class BoatData {
             bd.motorCurrent = dp.currents.get(boatMap.motorCurrentIndex);
         }
 //        System.out.printf("%f %f %f\n", solarPanelACurrent, solarPanelBCurrent, chargeControllerCurrent);
+
+        if (numTemps > boatMap.panelBTempIndex) {
+            bd.panelATemperature = dp.temps.get(boatMap.panelATempIndex);
+            bd.panelBTemperature = dp.temps.get(boatMap.panelBTempIndex);
+        }
 
         bd.speed = ldp.velocity;
 

@@ -13,6 +13,9 @@ public class BoatMap {
     private static final int BATTERY_A_VOLTAGE_INDEX = 0;
     private static final int BATTERY_B_VOLTAGE_INDEX = 1;
     private static final int SOLAR_PANEL_VOLTAGE_INDEX = 2;
+
+    private static final int PANEL_A_TEMP_INDEX = 0;
+    private static final int PANEL_B_TEMP_INDEX = 1;
     // END BOAT MAP
 
     public int solarPanelVoltageIndex;
@@ -21,6 +24,8 @@ public class BoatMap {
     public int batteryBVoltageIndex;
     public int chargeControllerCurrentIndex;
     public int motorCurrentIndex;
+    public int panelATempIndex;
+    public int panelBTempIndex;
 
     public BoatMap(boolean fillWithDefaults) {
         if (fillWithDefaults) {
@@ -30,6 +35,8 @@ public class BoatMap {
             batteryBVoltageIndex = BATTERY_B_VOLTAGE_INDEX;
             chargeControllerCurrentIndex = BATTERY_CHARGER_CURRENT_INDEX;
             motorCurrentIndex = MOTOR_CURRENT_INDEX;
+            panelATempIndex = PANEL_A_TEMP_INDEX;
+            panelBTempIndex = PANEL_B_TEMP_INDEX;
         }
     }
 }
