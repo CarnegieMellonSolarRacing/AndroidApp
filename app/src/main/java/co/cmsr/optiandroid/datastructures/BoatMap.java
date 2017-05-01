@@ -5,20 +5,31 @@ package co.cmsr.optiandroid.datastructures;
  */
 
 public class BoatMap {
-    public static final int NUM_CURRENTS = 4;
-    public static final int NUM_VOLTAGES = 3;
-    public static final int NUM_TEMPERATURES = 2;
+    // BOAT MAP
+    private static final int SOLAR_PANEL_CURRENT_INDEX = 0;
+    private static final int BATTERY_CHARGER_CURRENT_INDEX = 1;
+    private static final int MOTOR_CURRENT_INDEX = 2;
 
-    public static final int SOLAR_PANEL_A_VOLTAGE_INDEX = 0;
-    public static final int SOLAR_PANEL_B_VOLTAGE_INDEX = 1;
+    private static final int BATTERY_A_VOLTAGE_INDEX = 0;
+    private static final int BATTERY_B_VOLTAGE_INDEX = 1;
+    private static final int SOLAR_PANEL_VOLTAGE_INDEX = 2;
+    // END BOAT MAP
 
-    public static final int SOLAR_PANEL_A_CURRENT_INDEX = 0;
-    public static final int SOLAR_PANEL_B_CURRENT_INDEX = 1;
+    public int solarPanelVoltageIndex;
+    public int solarPanelCurrentIndex;
+    public int batteryAVoltageIndex;
+    public int batteryBVoltageIndex;
+    public int chargeControllerCurrentIndex;
+    public int motorCurrentIndex;
 
-    public static final int CHARGE_CONTROLLER_CURRENT_INDEX = 2;
-
-    public static final int BATTERY_A_VOLTAGE_INDEX = 2;
-    public static final int BATTERY_B_VOLTAGE_INDEX = 3;
-
-    public static final int MOTOR_CURRENT_INDEX = 3;
+    public BoatMap(boolean fillWithDefaults) {
+        if (fillWithDefaults) {
+            solarPanelVoltageIndex = SOLAR_PANEL_VOLTAGE_INDEX;
+            solarPanelCurrentIndex = SOLAR_PANEL_CURRENT_INDEX;
+            batteryAVoltageIndex = BATTERY_A_VOLTAGE_INDEX;
+            batteryBVoltageIndex = BATTERY_B_VOLTAGE_INDEX;
+            chargeControllerCurrentIndex = BATTERY_CHARGER_CURRENT_INDEX;
+            motorCurrentIndex = MOTOR_CURRENT_INDEX;
+        }
+    }
 }

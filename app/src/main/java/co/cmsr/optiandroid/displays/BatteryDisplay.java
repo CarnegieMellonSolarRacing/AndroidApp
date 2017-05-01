@@ -70,6 +70,9 @@ public class BatteryDisplay {
                 name,
                 voltMin,
                 voltMax);
+        this.voltMin = voltMin;
+        this.voltMax = voltMax;
+
         // Disable borders and background.
         dynamicBarChart.chart.setDrawGridBackground(false);
         dynamicBarChart.chart.setDrawBorders(false);

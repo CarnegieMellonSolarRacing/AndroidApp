@@ -8,7 +8,10 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import co.cmsr.optiandroid.communication.DataProcessor;
+import co.cmsr.optiandroid.datastructures.BoatConfig;
+import co.cmsr.optiandroid.datastructures.BoatMap;
 import co.cmsr.optiandroid.datastructures.DataPacket;
+import co.cmsr.optiandroid.datastructures.DataProcessorConfig;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
@@ -21,11 +24,27 @@ public class DataProcessorTest {
 
     public DataProcessor dataProcessor;
 
+    private DataProcessor makeDataProcessorFrom(
+            int numCurrents,
+            int calibrationWindowSize,
+            double[] currentSlopes) {
+        BoatConfig boatConfig = new BoatConfig(false /* use defaults */);
+        boatConfig.numCurrents = numCurrents;
+        DataProcessorConfig dpConfig = new DataProcessorConfig(false /* use defaults */);
+        dpConfig.calibrationWindowSize = calibrationWindowSize;
+        dpConfig.currentSlopes = currentSlopes;
+
+        DataProcessor dp = new DataProcessor(boatConfig, dpConfig);
+
+        return dp;
+    }
+
     public void makeDefaultDataProcessor() {
-        dataProcessor = new DataProcessor(
+        dataProcessor = makeDataProcessorFrom(
                 DEFAULT_NUM_CURRENTS,
                 DEFAULT_CALIBRATION_WINDOW_SIZE,
-                DEFAULT_CURRENT_SLOPES);
+                DEFAULT_CURRENT_SLOPES
+        );
     }
 
     @Test
@@ -103,7 +122,7 @@ public class DataProcessorTest {
 
     @Test
     public void slopeAndIntercepts() {
-        dataProcessor = new DataProcessor(
+        dataProcessor = makeDataProcessorFrom(
                 DEFAULT_NUM_CURRENTS,
                 2 /* calibration window size */,
                 new double[] { 0.25, 0.5, 1.5 });
@@ -133,7 +152,7 @@ public class DataProcessorTest {
 
     @Test
     public void simpleSlopes() {
-        dataProcessor = new DataProcessor(
+        dataProcessor = makeDataProcessorFrom(
                 DEFAULT_NUM_CURRENTS,
                 1 /* calibration window size */,
                 new double[] { 0.5, .25, 2.0 });

@@ -3,8 +3,10 @@ package co.cmsr.optiandroid.communication;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.cmsr.optiandroid.datastructures.BoatConfig;
 import co.cmsr.optiandroid.datastructures.BoatData;
 import co.cmsr.optiandroid.datastructures.DataPacket;
+import co.cmsr.optiandroid.datastructures.DataProcessorConfig;
 
 /**
  * Created by jonbuckley on 4/27/17.
@@ -19,14 +21,12 @@ public class DataProcessor {
     private double[][] currentCalibrationWindows;
     private boolean isCalibrated;
 
-    public DataProcessor(
-            int numCurrents,
-            int calibrationWindowSize,
-            double[] currentSlopes) {
-        this.numCurrents = numCurrents;
-        this.calibrationWindowSize = calibrationWindowSize;
+    public DataProcessor(BoatConfig boatConfig, DataProcessorConfig dpConfig) {
+        this.numCurrents = boatConfig.numCurrents;
+        this.calibrationWindowSize = dpConfig.calibrationWindowSize;
+        this.currentSlopes = dpConfig.currentSlopes;
+
         this.currentIntercepts = new double[numCurrents];
-        this.currentSlopes = currentSlopes;
         this.isCalibrated = false;
         numPacketsReceived = 0;
 
@@ -34,7 +34,8 @@ public class DataProcessor {
     }
 
     private void calibrateCurrents(List<Double> currents) {
-        for (int i = 0; i < currents.size(); i ++) {
+        int bound = Math.min(currents.size(), currentCalibrationWindows.length);
+        for (int i = 0; i < bound; i ++) {
             currentCalibrationWindows[i][numPacketsReceived] = currents.get(i).doubleValue();
         }
     }
@@ -58,7 +59,8 @@ public class DataProcessor {
 
     private void normalizeCurrents(DataPacket dp) {
         ArrayList<Double> normalized = new ArrayList<>();
-        for (int i = 0; i < dp.currents.size(); i ++) {
+        int bound = Math.min(dp.currents.size(), currentIntercepts.length);
+        for (int i = 0; i < bound; i ++) {
             double originalValue = dp.currents.get(i).doubleValue();
             normalized.add(new Double((originalValue - currentIntercepts[i]) * currentSlopes[i]));
         }

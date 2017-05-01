@@ -12,10 +12,8 @@ import co.cmsr.optiandroid.LocationTracker;
 public class BoatData {
     public boolean currentsCalibrated;
 
-    public double solarPanelACurrent;
-    public double solarPanelAVoltage;
-    public double solarPanelBCurrent;
-    public double solarPanelBVoltage;
+    public double solarPanelCurrent;
+    public double solarPanelVoltage;
 
     public double chargeControllerCurrent;
 
@@ -26,40 +24,43 @@ public class BoatData {
 
     public double speed;
 
-    public BoatData(
+    public static BoatData generateBoatData(
             Context context,
+            BoatMap boatMap,
             boolean currentsCalibrated,
             DataPacket dp,
             LocalDataPacket ldp) {
-        this.currentsCalibrated = currentsCalibrated;
+        BoatData bd = new BoatData();
+
+        bd.currentsCalibrated = currentsCalibrated;
 
         int numCurrents = dp.currents.size();
         int numVoltages = dp.voltages.size();
 
-        if (numCurrents > BoatMap.SOLAR_PANEL_B_CURRENT_INDEX) {
-            solarPanelACurrent = dp.currents.get(BoatMap.SOLAR_PANEL_A_CURRENT_INDEX);
-            solarPanelBCurrent = dp.currents.get(BoatMap.SOLAR_PANEL_B_CURRENT_INDEX);
+        if (numCurrents > boatMap.solarPanelVoltageIndex) {
+            bd.solarPanelCurrent = dp.currents.get(boatMap.solarPanelVoltageIndex);
         }
 
-        if (numVoltages > BoatMap.SOLAR_PANEL_B_VOLTAGE_INDEX) {
-            solarPanelAVoltage = dp.voltages.get(BoatMap.SOLAR_PANEL_A_VOLTAGE_INDEX);
-            solarPanelBVoltage = dp.voltages.get(BoatMap.SOLAR_PANEL_B_VOLTAGE_INDEX);
+        if (numVoltages > boatMap.solarPanelVoltageIndex) {
+            bd.solarPanelVoltage = dp.voltages.get(boatMap.solarPanelVoltageIndex);
         }
 
-        if (numCurrents > BoatMap.CHARGE_CONTROLLER_CURRENT_INDEX) {
-            chargeControllerCurrent = dp.currents.get(BoatMap.CHARGE_CONTROLLER_CURRENT_INDEX);
+        if (numCurrents > boatMap.chargeControllerCurrentIndex) {
+            bd.chargeControllerCurrent = dp.currents.get(boatMap.chargeControllerCurrentIndex);
         }
 
-        if (numVoltages > BoatMap.BATTERY_B_VOLTAGE_INDEX) {
-            batteryAVoltage = dp.voltages.get(BoatMap.BATTERY_A_VOLTAGE_INDEX);
-            batteryBVoltage = dp.voltages.get(BoatMap.BATTERY_B_VOLTAGE_INDEX);
+        if (numVoltages > boatMap.batteryBVoltageIndex) {
+            bd.batteryAVoltage = dp.voltages.get(boatMap.batteryAVoltageIndex);
+            bd.batteryBVoltage = dp.voltages.get(boatMap.batteryBVoltageIndex);
         }
 
-        if (numCurrents > BoatMap.MOTOR_CURRENT_INDEX) {
-            motorCurrent = dp.currents.get(BoatMap.MOTOR_CURRENT_INDEX);
+        if (numCurrents > boatMap.motorCurrentIndex) {
+            bd.motorCurrent = dp.currents.get(boatMap.motorCurrentIndex);
         }
 //        System.out.printf("%f %f %f\n", solarPanelACurrent, solarPanelBCurrent, chargeControllerCurrent);
 
-        speed = ldp.velocity;
+        bd.speed = ldp.velocity;
+
+        return bd;
     }
 }

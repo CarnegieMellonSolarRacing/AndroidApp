@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import co.cmsr.optiandroid.datastructures.BoatConfig;
+import co.cmsr.optiandroid.datastructures.BoatMap;
 import co.cmsr.optiandroid.datastructures.DataPacket;
+import co.cmsr.optiandroid.datastructures.DataProcessorConfig;
 import co.cmsr.optiandroid.renderers.BoatDataRenderer;
 
 public class MainActivity extends Activity {
@@ -21,11 +24,9 @@ public class MainActivity extends Activity {
     TextView trialDisplay;
     LineChart currentLineChart;
     BarChart voltagesBarChart;
-    Random random;
 
     volatile DataManager dataManager;
 
-    public static final String TAG = "AndroidOpti";
     public static final boolean DEBUG = true;
 
     @Override
@@ -38,17 +39,12 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        connnectButton = (Button) findViewById(R.id.buttonStart);
         trialDisplay = (TextView) findViewById(R.id.trialDisplay);
-//        currentLineChart = (LineChart) findViewById(R.id.currentLineChart);
-//        voltagesBarChart = (BarChart) findViewById(R.id.voltagesBarChart);
 
         Initialize(name, saveLog);
     }
 
     protected void Initialize(final String trialName, boolean saveLog) {
-        random = new Random();
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -56,76 +52,22 @@ public class MainActivity extends Activity {
             }
         });
 
-        BoatDataRenderer renderer = new BoatDataRenderer(this);
+        BoatMap boatMap = new BoatMap(true /* use defaults */);
+        BoatConfig boatConfig = new BoatConfig(true /* use defaults */);
+        DataProcessorConfig dpConfig = new DataProcessorConfig(true /* use defaults */);
+        BoatDataRenderer renderer = new BoatDataRenderer(this, boatConfig);
         dataManager = new DataManager(
                 this,
                 trialName,
                 saveLog,
-                connnectButton,
                 renderer,
-                currentLineChart,
-                voltagesBarChart);
+                boatConfig,
+                boatMap,
+                dpConfig);
 
         if (DEBUG) {
-            mockDataSource();
+            MockDataSource mockDataSource = new MockDataSource(dataManager);
+            mockDataSource.startTransmitting();
         }
     }
-
-    private void mockDataSource() {
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                while (!Thread.currentThread().isInterrupted()) {
-                    transmitMockPacket(dataManager);
-
-                    try {
-                        // sleep for half a second.
-                        Thread.sleep((long) 500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        new Thread(r).start();
-    }
-
-    private void transmitMockPacket(DataManager dm) {
-        DataPacket dp = samplePacket();
-        dm.onParsedPacket(dp);
-    }
-
-    private DataPacket samplePacket() {
-        List<Double> currents = new ArrayList<Double>();
-        currents.add(new Double(random.nextDouble()));
-        currents.add(new Double(random.nextDouble()));
-        currents.add(new Double(random.nextDouble()));
-        currents.add(new Double(random.nextDouble()));
-
-        List<Double> temps = new ArrayList<Double>();
-        temps.add(new Double(random.nextDouble()));
-        temps.add(new Double(random.nextDouble()));
-
-        List<Double> voltages = new ArrayList<Double>();
-        voltages.add(new Double(random.nextDouble() * 17));
-        voltages.add(new Double(random.nextDouble() * 17));
-        voltages.add(new Double(random.nextDouble() * 17));
-        voltages.add(new Double(random.nextDouble() * 17));
-
-        DataPacket dp = new DataPacket(temps, currents, voltages);
-
-        return dp;
-    }
-
-//    private void tvAppend(TextView tv, CharSequence text) {
-//        final TextView ftv = tv;
-//        final CharSequence ftext = text;
-//
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                ftv.append(ftext);
-//            }
-//        });
-//    }
 }

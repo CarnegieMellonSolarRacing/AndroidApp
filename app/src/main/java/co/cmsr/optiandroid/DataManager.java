@@ -1,5 +1,6 @@
 package co.cmsr.optiandroid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -16,9 +17,11 @@ import co.cmsr.optiandroid.charts.DynamicLineChart;
 import co.cmsr.optiandroid.communication.ArduinoUsbBridge;
 import co.cmsr.optiandroid.communication.DataParser;
 import co.cmsr.optiandroid.communication.DataProcessor;
+import co.cmsr.optiandroid.datastructures.BoatConfig;
 import co.cmsr.optiandroid.datastructures.BoatData;
 import co.cmsr.optiandroid.datastructures.BoatMap;
 import co.cmsr.optiandroid.datastructures.DataPacket;
+import co.cmsr.optiandroid.datastructures.DataProcessorConfig;
 import co.cmsr.optiandroid.datastructures.LocalDataGenerator;
 import co.cmsr.optiandroid.datastructures.LocalDataPacket;
 import co.cmsr.optiandroid.renderers.DataRenderer;
@@ -28,18 +31,13 @@ import co.cmsr.optiandroid.renderers.DataRenderer;
  */
 
 public class DataManager {
-    static final int LINE_CHART_MAX_POINTS = 25;
-    static final float VOLT_MIN = 0.0f, VOLT_MAX = 17.0f;
-    static final double[] CURRENT_SLOPES = { 1.0, 1.0, 1.0, 1.0 };
-    static final int CALIBRATION_WINDOW_SIZE = 5;
-
     Context context;
-    DataParser dataParser;
+
+    BoatConfig boatConfig;
+    BoatMap boatMap;
+
     ArduinoUsbBridge bridge;
-
-    DynamicLineChart dynamicLineChartOne;
-    DynamicBarChart dynamicBarChartOne;
-
+    DataParser dataParser;
     DataProcessor dataProcessor;
     LocalDataGenerator localDataGenerator;
     DataRenderer dataRenderer;
@@ -53,35 +51,40 @@ public class DataManager {
             Context context,
             String trialName,
             boolean saveLog,
-            Button connectButton,
             DataRenderer dataRenderer,
-            LineChart chartOne,
-            BarChart chartTwo) {
+            BoatConfig boatConfig,
+            BoatMap boatMap,
+            DataProcessorConfig dpConfig) {
         this.context = context;
-        this.connectButton = connectButton;
         this.dataRenderer = dataRenderer;
+        this.boatConfig = boatConfig;
+        this.boatMap = boatMap;
 
+        // Get date and append to trial name for log name.
         Date today = new Date();
         String dateString = new SimpleDateFormat("dd-MM-yyyy").format(today);
         this.logName = String.format("%s-%s", trialName, dateString);
         this.saveLog = saveLog;
 
+        // Create data pipeline: UsbBridge -> parser -> processor -> localDataGenerator -> renderer
+        bridge = new ArduinoUsbBridge(this, context);
         dataParser = new DataParser();
-        dataProcessor = new DataProcessor(
-                BoatMap.NUM_CURRENTS,
-                CALIBRATION_WINDOW_SIZE,
-                CURRENT_SLOPES);
+        dataProcessor = new DataProcessor(boatConfig, dpConfig);
         localDataGenerator = new LocalDataGenerator(context);
+
         startTime = System.currentTimeMillis();
 
-        bridge = new ArduinoUsbBridge(this, context);
-
+        connectButton = (Button) ((Activity) context).findViewById(R.id.connectButton);
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onConnectButtonClicked(view);
             }
         });
+    }
+
+    public void populateBoatSettings() {
+
     }
 
     public void onConnectionOpened() {
@@ -126,11 +129,12 @@ public class DataManager {
             // Gather local data.
             LocalDataPacket ldp = localDataGenerator.gatherLocalData();
             // Display the data.
-            dataRenderer.onPacketParsed(currentTime, new BoatData(
+            dataRenderer.onPacketParsed(currentTime, BoatData.generateBoatData(
                     context,
+                    boatMap,
                     dataProcessor.isCalibrated(),
                     dp /* Data Packet */,
-                    ldp) /* Local Data Packet */);
+                    ldp /* Local Data Packet */));
 //
 //            if (saveLog) {
 //                Logger.writeToFile(logName, String.format("%f %s\n", currentTime, dp.toString()));

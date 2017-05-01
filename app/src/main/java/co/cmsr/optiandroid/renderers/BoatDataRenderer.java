@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.BarChart;
 
 import co.cmsr.optiandroid.R;
+import co.cmsr.optiandroid.datastructures.BoatConfig;
 import co.cmsr.optiandroid.datastructures.BoatData;
 import co.cmsr.optiandroid.displays.BatteryDisplay;
 import co.cmsr.optiandroid.displays.ChargeControllerDisplay;
@@ -38,7 +39,7 @@ public class BoatDataRenderer implements DataRenderer {
 
     volatile boolean uiInitialized;
 
-    public BoatDataRenderer(Activity activity) {
+    public BoatDataRenderer(Activity activity, final BoatConfig boatConfig) {
         uiInitialized = false;
 
         final ImageView boatGraphic = (ImageView) activity.findViewById(R.id.boatGraphic);
@@ -57,14 +58,18 @@ public class BoatDataRenderer implements DataRenderer {
                         batteryAVoltageTextView,
                         "Battery A",
                         graphicWidth,
-                        graphicHeight);
+                        graphicHeight,
+                        boatConfig.batteryMinVoltage,
+                        boatConfig.batteryMaxVoltage);
 
                 batteryBDisplay = new BatteryDisplay(
                         batteryBVoltageChart,
                         batteryBVoltageTextView,
                         "Battery B",
                         graphicWidth,
-                        graphicHeight);
+                        graphicHeight,
+                        boatConfig.batteryMinVoltage,
+                        boatConfig.batteryMaxVoltage);
 
                 uiInitialized = true;
             }
@@ -108,9 +113,8 @@ public class BoatDataRenderer implements DataRenderer {
     public void onPacketParsed(float elapsedTime, BoatData dp) {
         if (uiInitialized) {
             solarPanelADisplay.updateDisplay(
-                    dp.currentsCalibrated ? dp.solarPanelACurrent : null,
-                    dp.solarPanelAVoltage);
-//            solarPanelBDisplay.updateDisplay(dp.solarPanelBCurrent, dp.solarPanelBVoltage);
+                    dp.currentsCalibrated ? dp.solarPanelCurrent : null,
+                    dp.solarPanelVoltage);
             chargeControllerDisplay.updateDisplay(
                     dp.currentsCalibrated ? dp.chargeControllerCurrent : null);
             batteryADisplay.updateDisplay(dp.batteryAVoltage);
