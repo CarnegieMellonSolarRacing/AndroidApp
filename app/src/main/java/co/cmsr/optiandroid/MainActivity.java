@@ -3,6 +3,7 @@ package co.cmsr.optiandroid;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import co.cmsr.optiandroid.datastructures.DataPacket;
 import co.cmsr.optiandroid.datastructures.DataProcessorConfig;
 import co.cmsr.optiandroid.renderers.BoatDataRenderer;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     Button connnectButton;
     TextView trialDisplay;
     LineChart currentLineChart;

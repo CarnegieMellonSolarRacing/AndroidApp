@@ -27,7 +27,7 @@ public class BoatDataRenderer implements DataRenderer {
     TextView chargeControllerCurrentDisplay;
     BarChart batteryAVoltageChart, batteryBVoltageChart;
     TextView batteryAVoltageTextView, batteryBVoltageTextView;
-    BarChart solarPanelATemperatureChart, solarPanelBTemperatureChart;
+    ImageView solarPanelATemperatureMercury, solarPanelBTemperatureMercury;
     TextView solarPanelATemperatureTextView, solarPanelBTemperatureTextView;
     TextView motorCurrentDisplay;
     TextView boatSpeedDisplay;
@@ -52,8 +52,8 @@ public class BoatDataRenderer implements DataRenderer {
         batteryAVoltageTextView = (TextView) activity.findViewById(R.id.batteryAVoltage);
         batteryBVoltageTextView = (TextView) activity.findViewById(R.id.batteryBVoltage);
 
-        solarPanelATemperatureChart = (BarChart) activity.findViewById(R.id.solarPanelATemperatureChart);
-        solarPanelBTemperatureChart = (BarChart) activity.findViewById(R.id.solarPanelBTemperatureChart);
+        solarPanelATemperatureMercury = (ImageView) activity.findViewById(R.id.solarPanelATemperatureMercury);
+        solarPanelBTemperatureMercury = (ImageView) activity.findViewById(R.id.solarPanelBTemperatureMercury);
         solarPanelATemperatureTextView = (TextView) activity.findViewById(R.id.solarPanelATemperature);
         solarPanelBTemperatureTextView = (TextView) activity.findViewById(R.id.solarPanelBTemperature);
 
@@ -82,7 +82,7 @@ public class BoatDataRenderer implements DataRenderer {
                         boatConfig.batteryMaxVoltage);
 
                 solarPanelATemperatureDisplay = new TemperatureDisplay(
-                        solarPanelATemperatureChart,
+                        solarPanelATemperatureMercury,
                         solarPanelATemperatureTextView,
                         "Solar Panel A",
                         graphicWidth,
@@ -91,7 +91,7 @@ public class BoatDataRenderer implements DataRenderer {
                         boatConfig.panelMaxTemperature);
 
                 solarPanelBTemperatureDisplay = new TemperatureDisplay(
-                        solarPanelBTemperatureChart,
+                        solarPanelBTemperatureMercury,
                         solarPanelBTemperatureTextView,
                         "Solar Panel B",
                         graphicWidth,

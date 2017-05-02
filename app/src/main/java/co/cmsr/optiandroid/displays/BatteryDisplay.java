@@ -25,12 +25,12 @@ import co.cmsr.optiandroid.R;
  */
 
 public class BatteryDisplay extends BarChartDisplay {
-
-    public static final float BAR_CHART_WIDTH_FRACTION = 0.37f;
+    public static final float BAR_CHART_WIDTH_FRACTION = 0.42f;
     public static final float BAR_CHART_HEIGHT_FRACTION = 0.142f;
     public static final int VOLT_MAX_COLOR = 0x06b703;
     public static final int VOLT_MIN_COLOR = 0xff9030;
     public static final String SUFFIX = " V";
+    public static final String FORMAT_STRING = "00.0";
 
     public BatteryDisplay(
             BarChart barChart,
@@ -51,6 +51,7 @@ public class BatteryDisplay extends BarChartDisplay {
              VOLT_MAX_COLOR,
              BAR_CHART_WIDTH_FRACTION,
              BAR_CHART_HEIGHT_FRACTION,
+             FORMAT_STRING,
              SUFFIX);
     }
 }

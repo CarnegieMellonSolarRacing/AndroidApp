@@ -1,9 +1,11 @@
 package co.cmsr.optiandroid.displays;
 
 import android.animation.ArgbEvaluator;
+import android.media.Image;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.constraint.ConstraintLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -24,15 +26,16 @@ import co.cmsr.optiandroid.charts.DynamicBarChart;
  * Created by jonbuckley on 4/30/17.
  */
 
-public class TemperatureDisplay extends BarChartDisplay {
-    public static final float BAR_CHART_WIDTH_FRACTION = 0.10f;
-    public static final float BAR_CHART_HEIGHT_FRACTION = 0.142f;
-    public static final int TEMP_MAX_COLOR = 0x06b703;
-    public static final int TEMP_MIN_COLOR = 0xff9030;
+public class TemperatureDisplay extends SimpleBarDisplay {
+    public static final float BAR_CHART_WIDTH_FRACTION = .048f;
+    public static final float BAR_CHART_HEIGHT_FRACTION = 0.135f;
+    public static final int TEMP_MAX_COLOR = 0xe06666;
+    public static final int TEMP_MIN_COLOR = 0xe06666;
     public static final String SUFFIX = " C";
+    public static final String FORMAT_STRING = "00";
 
     public TemperatureDisplay(
-            BarChart barChart,
+            ImageView bar,
             TextView tempDisplay,
             String name,
             int graphicWidth,
@@ -40,7 +43,7 @@ public class TemperatureDisplay extends BarChartDisplay {
             float tempMin,
             float tempMax) {
 
-        super(barChart,
+        super(bar,
             tempDisplay,
             name,
             graphicWidth,
@@ -51,6 +54,7 @@ public class TemperatureDisplay extends BarChartDisplay {
             TEMP_MAX_COLOR,
             BAR_CHART_WIDTH_FRACTION,
             BAR_CHART_HEIGHT_FRACTION,
+            FORMAT_STRING,
             SUFFIX);
     }
 }

@@ -63,8 +63,8 @@ public class MockDataSource {
                 currents.add(new Double(random.nextDouble()));
 
                 List<Double> temps = new ArrayList<Double>();
-                temps.add(new Double((random.nextDouble() * 10) + 15));
-                temps.add(new Double((random.nextDouble() * 10) + 15));
+                temps.add(new Double(40.0));//(random.nextDouble() * 10) + 15));
+                temps.add(new Double((random.nextDouble() * 25) + 15));
 
                 List<Double> voltages = new ArrayList<Double>();
                 voltages.add(new Double(random.nextDouble() * 17));

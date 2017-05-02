@@ -34,6 +34,7 @@ public class BarChartDisplay {
     float barChartWidthFraction, barChartHeightFraction;
     int valueMinColor, valueMaxColor;
     String suffix;
+    String formatString;
 
     private static final boolean USE_CHART_VALUES = false;
 
@@ -52,6 +53,7 @@ public class BarChartDisplay {
             int maxColor,
             float barWidthFraction,
             float barHeightFraction,
+            final String formatString,
             final String suffix) {
         this.barChart = barChart;
         this.minValue = minValue;
@@ -60,12 +62,19 @@ public class BarChartDisplay {
         this.valueMaxColor = maxColor;
         this.barChartWidthFraction = barWidthFraction;
         this.barChartHeightFraction = barHeightFraction;
+        this.formatString = formatString;
         this.suffix = suffix;
 
         this.valueDisplay = valueDisplay;
 
         ConstraintLayout.LayoutParams barChartLayoutParams = (ConstraintLayout.LayoutParams)
                 barChart.getLayoutParams();
+        // Switch from a verticalBias approach to a margin approach.
+        float offsetFromBottom = (1.0f - barChartLayoutParams.verticalBias) * (graphicHeight - barChartLayoutParams.height);
+        barChartLayoutParams.verticalBias = 1.0f;
+        barChartLayoutParams.bottomMargin = (int) offsetFromBottom;
+
+        // Adjust width and height.
         barChartLayoutParams.width = (int) (barChartWidthFraction * graphicWidth);
         barChartLayoutParams.height = (int) (barChartHeightFraction * graphicHeight);
         barChart.setLayoutParams(barChartLayoutParams);
@@ -93,7 +102,7 @@ public class BarChartDisplay {
         // Fill entire graph.
         dynamicBarChart.chart.setFitBars(false);
 
-        decimalFormatter = new DecimalFormat("00.0");
+        decimalFormatter = new DecimalFormat(formatString);
 
         if (USE_CHART_VALUES) {
             // Put labels below chart.
@@ -115,9 +124,6 @@ public class BarChartDisplay {
             dynamicBarChart.barData.setDrawValues(false);
         }
 
-        // Re-layout.
-        dynamicBarChart.chart.requestLayout();
-
         values = new ArrayList<>();
         values.add(new Double(0.0));
 
@@ -135,7 +141,7 @@ public class BarChartDisplay {
         uiHandler.post(new Runnable() {
             @Override
             public void run() {
-                float t = (float) temp / (maxValue - minValue);
+                float t = (float) Math.max(0, Math.min((temp - minValue) / (maxValue - minValue), 1));
                 int hexColor = (int) colorInterpolater.evaluate(
                         t,
                         valueMinColor,
