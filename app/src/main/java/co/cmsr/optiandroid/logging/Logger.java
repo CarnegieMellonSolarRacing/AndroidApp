@@ -1,4 +1,4 @@
-package co.cmsr.optiandroid;
+package co.cmsr.optiandroid.logging;
 
 import android.content.Context;
 import android.os.Environment;

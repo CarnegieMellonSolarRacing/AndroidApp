@@ -6,14 +6,9 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import co.cmsr.optiandroid.charts.DynamicBarChart;
-import co.cmsr.optiandroid.charts.DynamicLineChart;
 import co.cmsr.optiandroid.communication.ArduinoUsbBridge;
 import co.cmsr.optiandroid.communication.DataParser;
 import co.cmsr.optiandroid.communication.DataProcessor;
@@ -24,6 +19,8 @@ import co.cmsr.optiandroid.datastructures.DataPacket;
 import co.cmsr.optiandroid.datastructures.DataProcessorConfig;
 import co.cmsr.optiandroid.datastructures.LocalDataGenerator;
 import co.cmsr.optiandroid.datastructures.LocalDataPacket;
+import co.cmsr.optiandroid.logging.LoggerPacket;
+import co.cmsr.optiandroid.logging.Logger;
 import co.cmsr.optiandroid.renderers.DataRenderer;
 
 /**
@@ -92,7 +89,8 @@ public class DataManager {
         connectButton.setText("Disconnect from Arduino");
 
         if (saveLog) {
-            Logger.writeToFile(logName, String.format("CONNECTED %d\n", elapsedTime()));
+            LoggerPacket lp = new LoggerPacket("CONNECTED", elapsedTime(), null);
+            Logger.writeToFile(logName, lp.toJsonString());
         }
     }
 
@@ -101,7 +99,8 @@ public class DataManager {
         connectButton.setText("Connect to Arduino");
 
         if (saveLog) {
-            Logger.writeToFile(logName, String.format("%f DISCONNECTED\n", elapsedTime()));
+            LoggerPacket lp = new LoggerPacket("DISCONNECTED", elapsedTime(), null);
+            Logger.writeToFile(logName, lp.toJsonString());
         }
     }
 
@@ -129,16 +128,18 @@ public class DataManager {
             // Gather local data.
             LocalDataPacket ldp = localDataGenerator.gatherLocalData();
             // Display the data.
-            dataRenderer.onPacketParsed(currentTime, BoatData.generateBoatData(
+            BoatData boatData = BoatData.generateBoatData(
                     context,
                     boatMap,
                     dataProcessor.isCalibrated(),
                     dp /* Data Packet */,
-                    ldp /* Local Data Packet */));
-//
-//            if (saveLog) {
-//                Logger.writeToFile(logName, String.format("%f %s\n", currentTime, dp.toString()));
-//            }
+                    ldp /* Local Data Packet */);
+            dataRenderer.onPacketParsed(currentTime, boatData);
+
+            String boatDataJson = new LoggerPacket("UPDATE", currentTime, boatData).toJsonString();
+            if (saveLog) {
+                Logger.writeToFile(logName, boatDataJson);
+            }
         }
     }
 
