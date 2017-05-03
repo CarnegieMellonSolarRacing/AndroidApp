@@ -28,7 +28,7 @@ public class Logger {
 
     public static boolean writeToFile(String name, String data) {
         File storageDir = getStorageDir();
-        File newLogFile = new File(storageDir, name.replaceAll("\\W+", ""));
+        File newLogFile = new File(storageDir, name.replaceAll("^[\\w-]*$", ""));
 
         try {
             FileOutputStream fos = new FileOutputStream(newLogFile, true);

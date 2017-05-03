@@ -60,7 +60,7 @@ public class DataManager {
         // Get date and append to trial name for log name.
         Date today = new Date();
         String dateString = new SimpleDateFormat("dd-MM-yyyy").format(today);
-        this.logName = String.format("%s-%s", trialName, dateString);
+        this.logName = String.format("%s-%s.log", trialName, dateString);
         this.saveLog = saveLog;
 
         // Create data pipeline: UsbBridge -> parser -> processor -> localDataGenerator -> renderer
@@ -90,7 +90,7 @@ public class DataManager {
 
         if (saveLog) {
             LoggerPacket lp = new LoggerPacket("CONNECTED", elapsedTime(), null);
-            Logger.writeToFile(logName, lp.toJsonString());
+            Logger.writeToFile(logName, lp.toJsonString() + "\n");
         }
     }
 
@@ -100,7 +100,7 @@ public class DataManager {
 
         if (saveLog) {
             LoggerPacket lp = new LoggerPacket("DISCONNECTED", elapsedTime(), null);
-            Logger.writeToFile(logName, lp.toJsonString());
+            Logger.writeToFile(logName, lp.toJsonString() + "\n");
         }
     }
 
@@ -138,7 +138,7 @@ public class DataManager {
 
             String boatDataJson = new LoggerPacket("UPDATE", currentTime, boatData).toJsonString();
             if (saveLog) {
-                Logger.writeToFile(logName, boatDataJson);
+                Logger.writeToFile(logName, boatDataJson + "\n");
             }
         }
     }

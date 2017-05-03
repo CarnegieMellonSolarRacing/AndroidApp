@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import co.cmsr.optiandroid.logging.LoggerPacket;
@@ -23,6 +24,7 @@ public class LogReplayer {
     private List<LoggerPacket> loggerPackets;
 
     public LogReplayer() {
+        loggerPackets = new ArrayList<>();
     }
 
     public boolean loadData(File logfile) {

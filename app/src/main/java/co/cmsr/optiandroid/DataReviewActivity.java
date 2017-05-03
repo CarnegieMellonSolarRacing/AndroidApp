@@ -26,56 +26,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import co.cmsr.optiandroid.logging.Logger;
+import co.cmsr.optiandroid.replay.LogReplayer;
 
 public class DataReviewActivity extends AppCompatActivity {
     LineChart batteryVoltagesChart;
     LineChart currentsChart;
-
-    private String chosenFile;
-    private String[] fileList;
-    public static final String FTYPE = ".txt";
-    public static final int DIALOG_LOAD_FILE = 1000;
-
-    private void loadFileList(File logDir) {
-        if(logDir.exists()) {
-            FilenameFilter filter = new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String filename) {
-                    File sel = new File(dir, filename);
-                    return filename.contains(FTYPE) || sel.isDirectory();
-                }
-            };
-            fileList = logDir.list(filter);
-        }
-        else {
-            fileList= new String[0];
-        }
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        Dialog dialog = null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        switch(id) {
-            case DIALOG_LOAD_FILE:
-                builder.setTitle("Choose your file");
-                if(fileList == null) {
-                    Log.e(TAG, "Showing file picker before loading the file list");
-                    dialog = builder.create();
-                    return dialog;
-                }
-                builder.setItems(fileList, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        chosenFile = fileList[which];
-                        //you can do stuff with the file here too
-                    }
-                });
-                break;
-        }
-        dialog = builder.show();
-        return dialog;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,39 +44,60 @@ public class DataReviewActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        loadFileList(Logger.getStorageDir());
+        initializeCharts();
     }
 
     private void initializeCharts() {
-        ArrayList<Entry> batteryAVoltageEntries = new ArrayList<Entry>();
-        ArrayList<Entry> batteryBVoltageEntries = new ArrayList<Entry>();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Entry> batteryAVoltageEntries = new ArrayList<Entry>();
+                batteryAVoltageEntries.add(new Entry(0, 0));
+                ArrayList<Entry> batteryBVoltageEntries = new ArrayList<Entry>();
+                batteryBVoltageEntries.add(new Entry(0, 0));
 
-        LineDataSet batteryAVoltages = new LineDataSet(batteryAVoltageEntries, "Battery A");
-        LineDataSet batteryBVoltages = new LineDataSet(batteryAVoltageEntries, "Battery B");
+                LineDataSet batteryAVoltages = new LineDataSet(batteryAVoltageEntries, "Battery A");
+                LineDataSet batteryBVoltages = new LineDataSet(batteryBVoltageEntries, "Battery B");
 
-        LineData batteryVoltageData = new LineData();
-        batteryVoltageData.addDataSet(batteryAVoltages);
-        batteryVoltageData.addDataSet(batteryBVoltages);
+                LineData batteryVoltageData = new LineData();
+                batteryVoltageData.addDataSet(batteryAVoltages);
+                batteryVoltageData.addDataSet(batteryBVoltages);
 
-        batteryVoltagesChart.setData(batteryVoltageData);
+                batteryVoltagesChart.setData(batteryVoltageData);
 
-        ArrayList<Entry> solarPanelCurrentEntries = new ArrayList<Entry>();
-        ArrayList<Entry> motorCurrentEntries = new ArrayList<Entry>();
+                ArrayList<Entry> solarPanelCurrentEntries = new ArrayList<Entry>();
+                solarPanelCurrentEntries.add(new Entry(0, 0));
+                ArrayList<Entry> motorCurrentEntries = new ArrayList<Entry>();
+                motorCurrentEntries.add(new Entry(0, 0));
 
-        LineDataSet solarPanelCurrents = new LineDataSet(solarPanelCurrentEntries, "Solar Panel");
-        LineDataSet motorCurents = new LineDataSet(motorCurrentEntries, "Motor Current");
+                LineDataSet solarPanelCurrents = new LineDataSet(solarPanelCurrentEntries, "Solar Panel");
+                LineDataSet motorCurents = new LineDataSet(motorCurrentEntries, "Motor Current");
 
-        LineData currentData = new LineData();
-        currentData.addDataSet(solarPanelCurrents);
-        currentData.addDataSet(motorCurents);
+                LineData currentData = new LineData();
+                currentData.addDataSet(solarPanelCurrents);
+                currentData.addDataSet(motorCurents);
 
-        currentsChart.setData(currentData);
+                currentsChart.setData(currentData);
+            }
+        });
     }
 
-    public void onOpenLogFileButtonClicked(View view) {
+    public void openLogFileButtonClicked(View view) {
+        FileChooser fileChooser = new FileChooser(this, Logger.getStorageDir());
+        fileChooser.setExtension(".log");
+        fileChooser.setFileListener(new FileChooser.FileSelectedListener() {
+            @Override
+            public void fileSelected(File file) {
+                openReplay(file);
+            }
+        });
+        fileChooser.showDialog();
     }
+
 
     public void openReplay(File file) {
-
+        LogReplayer replayer = new LogReplayer();
+        replayer.loadData(file);
+        replayer.visualize(batteryVoltagesChart, currentsChart);
     }
 }

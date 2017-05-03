@@ -14,7 +14,7 @@ import android.widget.ToggleButton;
 public class StartScreen extends AppCompatActivity {
     EditText nameField;
     ToggleButton saveLogButton;
-    Button startButton;
+    Button startButton, loadLogButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,18 +23,10 @@ public class StartScreen extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         nameField = (EditText) findViewById(R.id.nameField);
         saveLogButton = (ToggleButton) findViewById(R.id.saveLogButton);
         startButton = (Button) findViewById(R.id.startButton);
+        loadLogButton = (Button) findViewById(R.id.loadLogButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,19 +34,44 @@ public class StartScreen extends AppCompatActivity {
                 startButtonClicked(view);
             }
         });
+        loadLogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadLogButtonClicked(view);
+            }
+        });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        enableButtons(true);
+    }
+
+    private void enableButtons(final boolean enabled) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Disable start button to prevent repeated clicks.
+                loadLogButton.setEnabled(enabled);
+                startButton.setEnabled(enabled);
+            }
+        });
+    }
+
+    public void loadLogButtonClicked(View view) {
+        enableButtons(false);
+
+        Intent i = new Intent(getApplicationContext(), DataReviewActivity.class);
+        startActivity(i);
     }
 
     public void startButtonClicked(View view) {
         String name = nameField.getText().toString();
         boolean saveLog = saveLogButton.isChecked();
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // Disable start button to prevent repeated clicks.
-                startButton.setEnabled(false);
-            }
-        });
+        enableButtons(false);
 
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.putExtra("trial_name", name);
