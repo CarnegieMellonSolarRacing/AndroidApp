@@ -1,5 +1,8 @@
 package co.cmsr.optiandroid.replay;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -52,9 +55,9 @@ public class LogReplayer {
         return false;
     }
 
-    public void visualize(LineChart batteryVoltages, LineChart currents) {
-        LineData batteryVoltagesData = batteryVoltages.getLineData();
-        LineData currentsData = currents.getLineData();
+    public void visualize(final LineChart batteryVoltages, final LineChart currents) {
+        final LineData batteryVoltagesData = batteryVoltages.getLineData();
+        final LineData currentsData = currents.getLineData();
         for (LoggerPacket lp : loggerPackets) {
             float time = lp.elapsedTime;
             // Add to battery voltages.
@@ -64,6 +67,20 @@ public class LogReplayer {
             currentsData.addEntry(new Entry(time, (float) lp.boatData.solarPanelCurrent), 0);
             currentsData.addEntry(new Entry(time, (float) lp.boatData.motorCurrent), 1);
         }
+
+        Handler uiHandler = new Handler(Looper.getMainLooper());
+        uiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                batteryVoltagesData.notifyDataChanged();
+                batteryVoltages.notifyDataSetChanged();
+                batteryVoltages.invalidate();
+
+                currentsData.notifyDataChanged();
+                currents.notifyDataSetChanged();
+                currents.invalidate();
+            }
+        });
     }
 
 }

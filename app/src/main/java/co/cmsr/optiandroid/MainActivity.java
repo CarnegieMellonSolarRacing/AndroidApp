@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     LineChart currentLineChart;
     BarChart voltagesBarChart;
 
+    MockDataSource mockDataSource;
+
     volatile DataManager dataManager;
 
     public static final boolean DEBUG = true;
@@ -43,6 +45,25 @@ public class MainActivity extends AppCompatActivity {
         trialDisplay = (TextView) findViewById(R.id.trialDisplay);
 
         Initialize(name, saveLog);
+    }
+
+    @Override
+    protected void onPause() {
+        dataManager.pause();
+        if (DEBUG && mockDataSource != null) {
+            mockDataSource.pauseTransmitting();
+        }
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if (DEBUG && mockDataSource != null) {
+            mockDataSource.startTransmitting();
+        }
+
+        super.onResume();
     }
 
     protected void Initialize(final String trialName, boolean saveLog) {
@@ -67,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 dpConfig);
 
         if (DEBUG) {
-            MockDataSource mockDataSource = new MockDataSource(dataManager);
+            mockDataSource = new MockDataSource(dataManager);
             mockDataSource.startTransmitting();
         }
     }

@@ -1,6 +1,7 @@
 package co.cmsr.optiandroid;
 
 import android.app.Activity;
+import android.app.admin.SystemUpdatePolicy;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -80,8 +81,10 @@ public class DataManager {
         });
     }
 
-    public void populateBoatSettings() {
-
+    public void pause() {
+        if (bridge.connected) {
+            bridge.closeConnection();
+        }
     }
 
     public void onConnectionOpened() {
@@ -140,6 +143,8 @@ public class DataManager {
             if (saveLog) {
                 Logger.writeToFile(logName, boatDataJson + "\n");
             }
+
+            System.out.println("Received packet " + elapsedTime());
         }
     }
 

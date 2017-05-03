@@ -41,8 +41,8 @@ public class BoatData {
         int numVoltages = dp.voltages.size();
         int numTemps = dp.temps.size();
 
-        if (numCurrents > boatMap.solarPanelVoltageIndex) {
-            bd.solarPanelCurrent = dp.currents.get(boatMap.solarPanelVoltageIndex);
+        if (numCurrents > boatMap.solarPanelCurrentIndex) {
+            bd.solarPanelCurrent = dp.currents.get(boatMap.solarPanelCurrentIndex);
         }
 
         if (numVoltages > boatMap.solarPanelVoltageIndex) {
