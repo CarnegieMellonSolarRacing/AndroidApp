@@ -139,12 +139,10 @@ public class DataManager {
                     ldp /* Local Data Packet */);
             dataRenderer.onPacketParsed(currentTime, boatData);
 
-            String boatDataJson = new LoggerPacket("UPDATE", currentTime, boatData).toJsonString();
             if (saveLog) {
+                String boatDataJson = new LoggerPacket("UPDATE", currentTime, boatData).toJsonString();
                 Logger.writeToFile(logName, boatDataJson + "\n");
             }
-
-            System.out.println("Received packet " + elapsedTime());
         }
     }
 

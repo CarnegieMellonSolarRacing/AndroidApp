@@ -59,13 +59,15 @@ public class LogReplayer {
         final LineData batteryVoltagesData = batteryVoltages.getLineData();
         final LineData currentsData = currents.getLineData();
         for (LoggerPacket lp : loggerPackets) {
-            float time = lp.elapsedTime;
-            // Add to battery voltages.
-            batteryVoltagesData.addEntry(new Entry(time, (float) lp.boatData.batteryAVoltage), 0);
-            batteryVoltagesData.addEntry(new Entry(time, (float) lp.boatData.batteryBVoltage), 1);
-            // Add to currents.
-            currentsData.addEntry(new Entry(time, (float) lp.boatData.solarPanelCurrent), 0);
-            currentsData.addEntry(new Entry(time, (float) lp.boatData.motorCurrent), 1);
+            if (lp.type.equals("UPDATE") && lp.boatData != null) {
+                float time = lp.elapsedTime;
+                // Add to battery voltages.
+                batteryVoltagesData.addEntry(new Entry(time, (float) lp.boatData.batteryAVoltage), 0);
+                batteryVoltagesData.addEntry(new Entry(time, (float) lp.boatData.batteryBVoltage), 1);
+                // Add to currents.
+                currentsData.addEntry(new Entry(time, (float) lp.boatData.solarPanelCurrent), 0);
+                currentsData.addEntry(new Entry(time, (float) lp.boatData.motorCurrent), 1);
+            }
         }
 
         Handler uiHandler = new Handler(Looper.getMainLooper());

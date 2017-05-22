@@ -150,6 +150,7 @@ public class BoatDataRenderer implements DataRenderer {
             motorDisplay.updateDisplay(dp.currentsCalibrated ? dp.motorCurrent : null);
             solarPanelATemperatureDisplay.updateDisplay(dp.panelATemperature);
             solarPanelBTemperatureDisplay.updateDisplay(dp.panelBTemperature);
+            speedDisplay.updateDisplay(dp.speed);
         }
     }
 }

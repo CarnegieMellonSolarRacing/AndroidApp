@@ -26,11 +26,10 @@ public class MainActivity extends AppCompatActivity {
     LineChart currentLineChart;
     BarChart voltagesBarChart;
 
+    boolean debugEnabled;
     MockDataSource mockDataSource;
 
     volatile DataManager dataManager;
-
-    public static final boolean DEBUG = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Intent i = getIntent();
         boolean saveLog = i.getBooleanExtra("save_log", false);
         String name = i.getStringExtra("trial_name");
+        debugEnabled = i.getBooleanExtra("debug_enabled", false);
 
         setContentView(R.layout.activity_main);
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         dataManager.pause();
-        if (DEBUG && mockDataSource != null) {
+        if (debugEnabled && mockDataSource != null) {
             mockDataSource.pauseTransmitting();
         }
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        if (DEBUG && mockDataSource != null) {
+        if (debugEnabled && mockDataSource != null) {
             mockDataSource.startTransmitting();
         }
 
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 boatMap,
                 dpConfig);
 
-        if (DEBUG) {
+        if (debugEnabled) {
             mockDataSource = new MockDataSource(dataManager);
             mockDataSource.startTransmitting();
         }

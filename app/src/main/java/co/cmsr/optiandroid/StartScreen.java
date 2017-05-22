@@ -13,7 +13,7 @@ import android.widget.ToggleButton;
 
 public class StartScreen extends AppCompatActivity {
     EditText nameField;
-    ToggleButton saveLogButton;
+    ToggleButton saveLogButton, enableDebugButton;
     Button startButton, loadLogButton;
 
     @Override
@@ -25,6 +25,7 @@ public class StartScreen extends AppCompatActivity {
 
         nameField = (EditText) findViewById(R.id.nameField);
         saveLogButton = (ToggleButton) findViewById(R.id.saveLogButton);
+        enableDebugButton = (ToggleButton) findViewById(R.id.enableDebugButton);
         startButton = (Button) findViewById(R.id.startButton);
         loadLogButton = (Button) findViewById(R.id.loadLogButton);
 
@@ -70,12 +71,14 @@ public class StartScreen extends AppCompatActivity {
     public void startButtonClicked(View view) {
         String name = nameField.getText().toString();
         boolean saveLog = saveLogButton.isChecked();
+        boolean debugEnabled = enableDebugButton.isChecked();
 
         enableButtons(false);
 
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.putExtra("trial_name", name);
         i.putExtra("save_log", saveLog);
+        i.putExtra("debug_enabled", debugEnabled);
         startActivity(i);
     }
 }

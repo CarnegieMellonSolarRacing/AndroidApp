@@ -69,6 +69,7 @@
             app:layout_constraintRight_toLeftOf="@+id/centerline"
             android:layout_marginRight="19dp"
             android:layout_marginEnd="19dp" />
+
         <ToggleButton
             android:id="@+id/saveLogButton"
             android:layout_height="48dp"
@@ -78,6 +79,28 @@
             app:layout_constraintLeft_toLeftOf="@+id/centerline"
             app:layout_constraintRight_toRightOf="@+id/header"
             android:layout_marginStart="8dp" />
+
+        <TextView
+            android:id="@+id/enableDebugLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="19dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="11dp"
+            android:text="Enable Debug"
+            android:textSize="30dp"
+            app:layout_constraintRight_toLeftOf="@+id/centerline"
+            app:layout_constraintTop_toBottomOf="@+id/saveLogLabel" />
+
+        <ToggleButton
+            android:id="@+id/enableDebugButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/enableDebugLabel"
+            app:layout_constraintLeft_toLeftOf="@+id/centerline"
+            app:layout_constraintRight_toRightOf="@+id/header" />
 
         <Button
             android:id="@+id/startButton"

@@ -19,12 +19,14 @@ public class DataProcessor {
     private double[] currentSlopes;
     private double[] currentIntercepts;
     private double[][] currentCalibrationWindows;
+    private double[] voltageCoefficients;
     private boolean isCalibrated;
 
     public DataProcessor(BoatConfig boatConfig, DataProcessorConfig dpConfig) {
         this.numCurrents = boatConfig.numCurrents;
         this.calibrationWindowSize = dpConfig.calibrationWindowSize;
         this.currentSlopes = dpConfig.currentSlopes;
+        this.voltageCoefficients = dpConfig.voltageCoefficients;
 
         this.currentIntercepts = new double[numCurrents];
         this.isCalibrated = false;
@@ -68,11 +70,23 @@ public class DataProcessor {
         dp.currents = normalized;
     }
 
+    private void normalizeVoltages(DataPacket dp) {
+        ArrayList<Double> normalized = new ArrayList<>();
+        int bound = Math.min(dp.voltages.size(), voltageCoefficients.length);
+        for (int i = 0; i < bound; i ++) {
+            double originalValue = dp.voltages.get(i).doubleValue();
+            normalized.add(new Double(originalValue * voltageCoefficients[i]));
+        }
+
+        dp.voltages = normalized;
+    }
+
     public boolean isCalibrated() {
         return isCalibrated;
     }
 
     public void onDataPacketReceievd(DataPacket dp) {
+        // Normalize currents.
         if (numPacketsReceived < calibrationWindowSize) {
             calibrateCurrents(dp.currents);
             if (numPacketsReceived == calibrationWindowSize - 1) {
@@ -81,6 +95,9 @@ public class DataProcessor {
         } else {
             normalizeCurrents(dp);
         }
+
+        // Normalize voltages.
+        normalizeVoltages(dp);
 
         numPacketsReceived ++;
     }
