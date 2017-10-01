@@ -3,3 +3,5 @@ Simple Android Application to interface an Arduino with an Android phone using a
 
 Made using felHR85's [UsbSerial Library](https://github.com/felHR85/UsbSerial)
 
+For Carnegie Mellon Solar Racing
+
