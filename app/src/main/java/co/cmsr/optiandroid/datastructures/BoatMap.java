@@ -6,9 +6,9 @@ package co.cmsr.optiandroid.datastructures;
 
 public class BoatMap {
     // BOAT MAP
-    private static final int SOLAR_PANEL_CURRENT_INDEX = 0;
-    private static final int BATTERY_CHARGER_CURRENT_INDEX = 1;
-    private static final int MOTOR_CURRENT_INDEX = 2;
+    private static final int SOLAR_PANEL_CURRENT_INDEX = 1;
+    private static final int BATTERY_CHARGER_CURRENT_INDEX = 2;
+    private static final int MOTOR_CURRENT_INDEX = 0;
 
     private static final int BATTERY_A_VOLTAGE_INDEX = 0;
     private static final int BATTERY_B_VOLTAGE_INDEX = 1;
