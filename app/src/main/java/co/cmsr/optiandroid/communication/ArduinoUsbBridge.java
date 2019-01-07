@@ -74,31 +74,41 @@ public class ArduinoUsbBridge {
         ;
     };
 
-    public void tryConnect() {
+    public boolean tryConnect() {
         HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
         if (!usbDevices.isEmpty()) {
-            boolean keep = true;
+            // boolean found = false;  // uncomment if want to loop through devices
             for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
                 device = entry.getValue();
                 int deviceVID = device.getVendorId();
-                if (deviceVID == 0x2341 || deviceVID == 0x2a03)//Arduino Vendor ID
+                /*
+                if (deviceVID == 0x2341 || deviceVID == 0x2a03 //Legit Arduino Uno Vendor ID
+                    || deviceVID == 0x6001 // Sparkfun Redboard
+                    || deviceVID == 0x1A86) // Chinese clone
+
                 {
-                    PendingIntent pi = PendingIntent.getBroadcast(
-                            context,
-                            0,
-                            new Intent(ACTION_USB_PERMISSION),
-                            0);
-                    usbManager.requestPermission(device, pi);
-                    keep = false;
+                */
+                PendingIntent pi = PendingIntent.getBroadcast(
+                        context,
+                        0,
+                        new Intent(ACTION_USB_PERMISSION),
+                        0);
+                usbManager.requestPermission(device, pi);
+                // found = true;
+                /*
                 } else {
                     connection = null;
                     device = null;
                 }
+                */
 
-                if (!keep)
-                    break;
+                // if (found) return true;
+                return true;
             }
         }
+        // TODO: have function return more information, such as cause of
+        // no connection with Arduino
+        return false;
     }
 
     private void openConnection() {
