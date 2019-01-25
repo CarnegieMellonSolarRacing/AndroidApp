@@ -89,8 +89,7 @@ public class DataManager {
 
     public void onConnectionOpened() {
         connectButton.setBackgroundColor(Color.GREEN);
-        connectButton.setText("Disconnect from Arduino");
-
+        connectButton.setText("Connected!");
         if (saveLog) {
             LoggerPacket lp = new LoggerPacket("CONNECTED", elapsedTime(), null);
             Logger.writeToFile(logName, lp.toJsonString() + "\n");
@@ -99,8 +98,7 @@ public class DataManager {
 
     public void onConnectionClosed() {
         connectButton.setBackgroundColor(Color.RED);
-        connectButton.setText("Connect to Arduino");
-
+        connectButton.setText("Disconnected!");
         if (saveLog) {
             LoggerPacket lp = new LoggerPacket("DISCONNECTED", elapsedTime(), null);
             Logger.writeToFile(logName, lp.toJsonString() + "\n");
@@ -109,7 +107,10 @@ public class DataManager {
 
     public void onConnectButtonClicked(View view) {
         if (!bridge.connected) {
-            bridge.tryConnect();
+            if (!bridge.tryConnect()) {
+              connectButton.setBackgroundColor(Color.RED);
+              connectButton.setText("No USB Device Detected!");
+            }
         } else {
             bridge.closeConnection();
         }

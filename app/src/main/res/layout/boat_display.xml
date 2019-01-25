@@ -30,27 +30,27 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/solarPanelBTemperature" />
 
-    <!--<com.github.mikephil.charting.charts.BarChart-->
-        <!--android:id="@+id/solarPanelATemperatureChart"-->
-        <!--android:layout_width="29dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"-->
-        <!--app:layout_constraintHorizontal_bias="0.96"-->
-        <!--app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"-->
-        <!--app:layout_constraintRight_toRightOf="@+id/boatGraphic"-->
-        <!--app:layout_constraintTop_toTopOf="@+id/boatGraphic"-->
-        <!--app:layout_constraintVertical_bias="0.0" />-->
+ <!--   <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/solarPanelATemperatureChart"
+        android:layout_width="29dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <!--<com.github.mikephil.charting.charts.BarChart-->
-        <!--android:id="@+id/solarPanelBTemperatureChart"-->
-        <!--android:layout_width="29dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"-->
-        <!--app:layout_constraintHorizontal_bias="0.96"-->
-        <!--app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"-->
-        <!--app:layout_constraintRight_toRightOf="@+id/boatGraphic"-->
-        <!--app:layout_constraintTop_toTopOf="@+id/boatGraphic"-->
-        <!--app:layout_constraintVertical_bias="0.24000001" />-->
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/solarPanelBTemperatureChart"
+        android:layout_width="29dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.24000001" />-->
 
     <co.cmsr.optiandroid.DynamicImageView
         android:id="@+id/boatGraphic"
