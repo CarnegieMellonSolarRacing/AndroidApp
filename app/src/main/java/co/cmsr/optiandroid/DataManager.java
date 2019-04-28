@@ -117,10 +117,8 @@ public class DataManager {
     }
 
     public void onReceivedData(byte[] arg0) {
-        dataParser.onDataReceived(arg0);
-        DataPacket dp = dataParser.getDataPacket();
+        dataParser.onDataReceived(arg0, dataRenderer);
 
-        onParsedPacket(dp);
     }
 
     public void onParsedPacket(DataPacket dp) {
@@ -138,7 +136,7 @@ public class DataManager {
                     dataProcessor.isCalibrated(),
                     dp /* Data Packet */,
                     ldp /* Local Data Packet */);
-            dataRenderer.onPacketParsed(currentTime, boatData);
+            dataRenderer.renderData(currentTime, boatData);
 
             if (saveLog) {
                 String boatDataJson = new LoggerPacket("UPDATE", currentTime, boatData).toJsonString();

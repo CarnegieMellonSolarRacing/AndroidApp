@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import co.cmsr.optiandroid.datastructures.DataPacket;
+import co.cmsr.optiandroid.renderers.DataRenderer;
 
 /**
  * Created by jonbuckley on 4/9/17.
@@ -27,7 +28,7 @@ public class DataParser {
         parsedPackets = new LinkedList<DataPacket>();
     }
 
-    public void onDataReceived(byte[] data) {
+    public void onDataReceived(byte[] data, DataRenderer renderer) {
         buffer += new String(data);
 
         if (buffer.contains("\n")) {
@@ -36,8 +37,12 @@ public class DataParser {
 
             String firstLine = lines[0];
             try {
-                DataPacket packet = parse(new ByteArrayInputStream(firstLine.getBytes()));
-                parsedPackets.add(packet);
+                String[] parts = firstLine.split(",");
+                int[] ints = new int[parts.length];
+                for (int i = 0; i < parts.length; i++) {
+//                    ints[i] = Integer.parseInt(parts[i]);
+                    renderer.printDebug(parts[i]);
+                }
             } catch (Exception e) {
                 System.out.println("Could not parse the following line: " + firstLine);
             }

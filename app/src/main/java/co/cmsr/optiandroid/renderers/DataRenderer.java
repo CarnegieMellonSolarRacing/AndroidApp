@@ -7,5 +7,6 @@ import co.cmsr.optiandroid.datastructures.BoatData;
  */
 
 public interface DataRenderer {
-    void onPacketParsed(float elapsedTime, BoatData dp);
+    void renderData(float elapsedTime, BoatData dp);
+    void printDebug(String val);
 }
