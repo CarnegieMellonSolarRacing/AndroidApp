@@ -47,22 +47,22 @@ public class DataParser {
     public boolean parseData(byte[] data, DataRenderer renderer, boolean isFirstInput) {
         buffer += new String(data);
 
+        // Try to parse data if we have received a "full line"
         if (buffer.contains("\n")) {
-            // Try to parse data if we have received a "full line"
-            renderer.printDebug(buffer);
+
             if (!isFirstInput) {
                 String[] lines = buffer.split(deliminator);
                 String firstLine = lines[0];
-//                try {
-//                    String[] parts = firstLine.split(",");
-//                    //                int[] ints = new int[parts.length];
-//                    for (int i = 0; i < parts.length; i++) {
-//                        // ints[i] = Integer.parseInt(parts[i]);
-//                        renderer.printDebug(parts[i]);
-//                    }
-//                } catch (Exception e) {
-//                    System.out.println("Could not parse the following line: " + firstLine);
-//                }
+                try {
+                    String[] parts = firstLine.split(",");
+                    int[] ints = new int[parts.length];
+                    for (int i = 0; i < parts.length; i++) {
+                        ints[i] = Integer.parseInt(parts[i]);
+                        renderer.printDebug(parts[i]);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Could not parse the following line: " + firstLine);
+                }
             } else isFirstInput = false;
 
             // Pop off the first line from the buffer.
