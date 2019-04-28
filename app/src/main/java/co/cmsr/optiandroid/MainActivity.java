@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     BarChart voltagesBarChart;
 
     boolean debugEnabled;
-    MockDataSource mockDataSource;
 
     volatile DataManager dataManager;
 
@@ -50,18 +49,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         dataManager.pause();
-        if (debugEnabled && mockDataSource != null) {
-            mockDataSource.pauseTransmitting();
-        }
 
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        if (debugEnabled && mockDataSource != null) {
-            mockDataSource.startTransmitting();
-        }
 
         super.onResume();
     }
@@ -86,10 +79,5 @@ public class MainActivity extends AppCompatActivity {
                 boatConfig,
                 boatMap,
                 dpConfig);
-
-        if (debugEnabled) {
-            mockDataSource = new MockDataSource(dataManager);
-            mockDataSource.startTransmitting();
-        }
     }
 }

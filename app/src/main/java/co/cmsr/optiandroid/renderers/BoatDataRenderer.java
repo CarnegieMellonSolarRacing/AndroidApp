@@ -1,12 +1,15 @@
 package co.cmsr.optiandroid.renderers;
 
 import android.app.Activity;
+import android.provider.ContactsContract;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.LinkedList;
+
 import co.cmsr.optiandroid.R;
 import co.cmsr.optiandroid.datastructures.BoatConfig;
-import co.cmsr.optiandroid.datastructures.BoatData;
+import co.cmsr.optiandroid.datastructures.DataPacket;
 import co.cmsr.optiandroid.displays.DataTextDisplay;
 
 /**
@@ -60,11 +63,12 @@ public class BoatDataRenderer implements DataRenderer {
     }
 
     @Override
-    public void renderData(float elapsedTime, BoatData dp) {
-        solarPanelDisplay.updateDisplay(dp.solarPanelPower);
-        batteryChargeDisplay.updateDisplay(dp.batteryCharge);
-        batteryChargePercentDisplay.updateDisplay(dp.batteryChargePercent);
-        batteryTempDisplay.updateDisplay(dp.batteryTemp);
+    public void renderData(LinkedList<DataPacket> dp_list) {
+        DataPacket dp = dp_list.getLast();
+        solarPanelDisplay.updateDisplay(dp.solar_charge);
+        batteryChargeDisplay.updateDisplay(dp.battery_charge);
+        batteryChargePercentDisplay.updateDisplay(dp.battery_charge_percent);
+        batteryTempDisplay.updateDisplay(dp.battery_temp);
         boatSpeedDisplay.updateDisplay(dp.boatSpeed);
     }
 

@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 import co.cmsr.optiandroid.communication.ArduinoUsbBridge;
 import co.cmsr.optiandroid.communication.DataParser;
@@ -39,6 +40,7 @@ public class DataManager {
     DataProcessor dataProcessor;
     LocalDataGenerator localDataGenerator;
     DataRenderer dataRenderer;
+    LinkedList<DataPacket> dataPackets;
 
     Button connectButton;
     long startTime;
@@ -58,6 +60,7 @@ public class DataManager {
         this.dataRenderer = dataRenderer;
         this.boatConfig = boatConfig;
         this.boatMap = boatMap;
+        this.dataPackets = new LinkedList<DataPacket>();
 
         // Get date and append to trial name for log name.
         Date today = new Date();
@@ -120,34 +123,10 @@ public class DataManager {
     }
 
     public void onReceivedData(byte[] arg0) {
-        isFirstInput = dataParser.parseData(arg0, dataRenderer, isFirstInput);
-//        if (isFirstInput) dataRenderer.printDebug("TRUE");
-//        else dataRenderer.printDebug("FALSE");
+        isFirstInput = dataParser.parseData(arg0, isFirstInput, dataPackets);
+        dataRenderer.renderData(dataPackets);
     }
 
-    public void onParsedPacket(DataPacket dp) {
-        if (dp != null) {
-            float currentTime = elapsedTime();
-
-            // This will modify dp to be cleansed.
-            dataProcessor.onDataPacketReceievd(dp);
-            // Gather local data.
-            LocalDataPacket ldp = localDataGenerator.gatherLocalData();
-            // Display the data.
-            BoatData boatData = BoatData.generateBoatData(
-                    context,
-                    boatMap,
-                    dataProcessor.isCalibrated(),
-                    dp /* Data Packet */,
-                    ldp /* Local Data Packet */);
-            dataRenderer.renderData(currentTime, boatData);
-
-            if (saveLog) {
-                String boatDataJson = new LoggerPacket("UPDATE", currentTime, boatData).toJsonString();
-                Logger.writeToFile(logName, boatDataJson + "\n");
-            }
-        }
-    }
 
     private float elapsedTime() {
         long currentTime = System.currentTimeMillis();
