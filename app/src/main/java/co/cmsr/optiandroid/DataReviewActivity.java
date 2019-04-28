@@ -101,16 +101,10 @@ public class DataReviewActivity extends AppCompatActivity {
         fileChooser.setFileListener(new FileChooser.FileSelectedListener() {
             @Override
             public void fileSelected(File file) {
-                openReplay(file);
+                return;
             }
         });
         fileChooser.showDialog();
     }
 
-
-    public void openReplay(File file) {
-        LogReplayer replayer = new LogReplayer();
-        replayer.loadData(file);
-        replayer.visualize(batteryVoltagesChart, currentsChart);
-    }
 }

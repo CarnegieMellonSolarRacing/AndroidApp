@@ -16,7 +16,6 @@ import co.cmsr.optiandroid.displays.DataTextDisplay;
 public class BoatDataRenderer implements DataRenderer {
     TextView solarPanelPowerTextView;
     TextView batteryChargeTextView, batteryChargePercentTextView, batteryTempTextView;
-    TextView motorPowerTextView;
     TextView boatSpeedTextView;
 
     String power_symbol = "W";
@@ -40,14 +39,12 @@ public class BoatDataRenderer implements DataRenderer {
         batteryChargeTextView = (TextView) activity.findViewById(R.id.batteryCharge);
         batteryChargePercentTextView = (TextView) activity.findViewById(R.id.batteryChargePercent);
         batteryTempTextView = (TextView) activity.findViewById(R.id.batteryTemp);
-        motorPowerTextView = (TextView) activity.findViewById(R.id.motorPower);
         boatSpeedTextView = (TextView) activity.findViewById(R.id.speed);
 
         solarPanelDisplay = new DataTextDisplay(solarPanelPowerTextView, power_symbol);
         batteryChargeDisplay = new DataTextDisplay(batteryChargeTextView, charge_symbol);
         batteryChargePercentDisplay = new DataTextDisplay(batteryChargePercentTextView, percent_symbol);
         batteryTempDisplay = new DataTextDisplay(batteryTempTextView, temp_symbol);
-        motorPowerDisplay = new DataTextDisplay(motorPowerTextView, power_symbol);
         boatSpeedDisplay = new DataTextDisplay(boatSpeedTextView, speed_symbol);
 
 
@@ -68,12 +65,11 @@ public class BoatDataRenderer implements DataRenderer {
         batteryChargeDisplay.updateDisplay(dp.batteryCharge);
         batteryChargePercentDisplay.updateDisplay(dp.batteryChargePercent);
         batteryTempDisplay.updateDisplay(dp.batteryTemp);
-        motorPowerDisplay.updateDisplay(dp.motorPower);
         boatSpeedDisplay.updateDisplay(dp.boatSpeed);
     }
 
     @Override
     public void printDebug(String val) {
-
+        solarPanelDisplay.debugPrint(val);
     }
 }

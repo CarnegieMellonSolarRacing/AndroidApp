@@ -10,25 +10,13 @@
         android:layout_width="wrap_content"
         android:layout_height="10dp"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/mercury_vector"
-        app:layout_constraintBottom_toTopOf="@+id/solarPanelATemperature"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.912"
         app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
         app:layout_constraintRight_toRightOf="@+id/boatGraphic"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintHorizontal_bias="0.915" />
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.415" />
 
-    <ImageView
-        android:id="@+id/solarPanelBTemperatureMercury"
-        android:layout_width="wrap_content"
-        android:layout_height="10dp"
-        android:adjustViewBounds="false"
-        android:scaleType="fitXY"
-        app:layout_constraintHorizontal_bias="0.915"
-        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
-        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
-        app:srcCompat="@drawable/mercury_vector"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/solarPanelBTemperature" />
 
  <!--   <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/solarPanelATemperatureChart"
@@ -58,10 +46,11 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/complete_boat" />
 
     <TextView
@@ -72,7 +61,7 @@
         android:textColor="@android:color/primary_text_light"
         android:textSize="@dimen/text_primary"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
-        app:layout_constraintHorizontal_bias="0.597"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
         app:layout_constraintRight_toRightOf="@+id/boatGraphic"
         app:layout_constraintTop_toTopOf="@+id/boatGraphic"
@@ -84,7 +73,13 @@
         android:layout_height="wrap_content"
         android:text="*"
         android:textSize="@dimen/text_secondary"
-        tools:layout_editor_absoluteY="165dp" />
+        tools:layout_editor_absoluteY="165dp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.912"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.415" />
 
     <TextView
         android:id="@+id/batteryCharge"
@@ -94,11 +89,11 @@
         android:textColor="@android:color/primary_text_light"
         android:textSize="@dimen/text_primary"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
         app:layout_constraintRight_toRightOf="@+id/boatGraphic"
         app:layout_constraintTop_toTopOf="@+id/boatGraphic"
-        app:layout_constraintVertical_bias="0.392" />
+        app:layout_constraintVertical_bias="0.413" />
 
     <TextView
         android:id="@+id/batteryChargePercent"
@@ -108,35 +103,11 @@
         android:textColor="@android:color/primary_text_light"
         android:textSize="@dimen/text_primary"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
         app:layout_constraintRight_toRightOf="@+id/boatGraphic"
         app:layout_constraintTop_toTopOf="@+id/boatGraphic"
-        app:layout_constraintVertical_bias="0.43" />
-
-    <TextView
-        android:id="@+id/motorCurrent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="15 W"
-        android:textColor="@android:color/primary_text_light"
-        android:textSize="@dimen/text_primary"
-        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
-        app:layout_constraintHorizontal_bias="0.895"
-        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
-        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
-        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
-        app:layout_constraintVertical_bias="0.961" />
-
-    <TextView
-        android:id="@+id/batteryBVoltage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="15 V"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_primary"
-        tools:layout_editor_absoluteX="229dp"
-        tools:layout_editor_absoluteY="552dp" />
+        app:layout_constraintVertical_bias="0.451" />
 
     <TextView
         android:id="@+id/speed"
@@ -153,61 +124,73 @@
         app:layout_constraintHorizontal_bias="0.033" />
 
     <TextView
-        android:id="@+id/solarPanelATemperature"
+        android:id="@+id/batteryTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10 C"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_secondary"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
-        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintHorizontal_bias="0.912"
         app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
         app:layout_constraintTop_toTopOf="@+id/boatGraphic"
-        app:layout_constraintVertical_bias="0.17000002"
-        app:layout_constraintRight_toRightOf="@+id/boatGraphic" />
+        app:layout_constraintVertical_bias="0.415" />
 
     <TextView
-        android:id="@+id/solarPanelBTemperature"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10 C"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_secondary"
-        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
-        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
-        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
-        app:layout_constraintHorizontal_bias="0.92"
-        app:layout_constraintVertical_bias="0.375"
-        app:layout_constraintRight_toRightOf="@+id/boatGraphic" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
         android:text="Charge Left:"
-        tools:layout_editor_absoluteX="67dp"
-        tools:layout_editor_absoluteY="269dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.415" />
 
-    <EditText
-        android:id="@+id/editText3"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Percent Left:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.255"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.447" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:text="Bat. Temp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.978"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.447" />
+
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Percent Left: "
-        tools:layout_editor_absoluteX="67dp"
-        tools:layout_editor_absoluteY="294dp" />
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Charge Rate: "
-        tools:layout_editor_absoluteX="67dp"
-        tools:layout_editor_absoluteY="114dp" />
+        android:text="Charge Rate"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.214"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.176" />
 
 </android.support.constraint.ConstraintLayout>

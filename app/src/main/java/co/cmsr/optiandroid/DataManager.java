@@ -44,6 +44,7 @@ public class DataManager {
     long startTime;
     String logName;
     boolean saveLog;
+    boolean isFirstInput;
 
     public DataManager(
             Context context,
@@ -63,6 +64,7 @@ public class DataManager {
         String dateString = new SimpleDateFormat("dd-MM-yyyy").format(today);
         this.logName = String.format("%s-%s.log", trialName, dateString);
         this.saveLog = saveLog;
+        this.isFirstInput = true;
 
         // Create data pipeline: UsbBridge -> parser -> processor -> localDataGenerator -> renderer
         bridge = new ArduinoUsbBridge(this, context);
@@ -90,6 +92,7 @@ public class DataManager {
     public void onConnectionOpened() {
         connectButton.setBackgroundColor(Color.GREEN);
         connectButton.setText("Connected!");
+        isFirstInput = true;
         if (saveLog) {
             LoggerPacket lp = new LoggerPacket("CONNECTED", elapsedTime(), null);
             Logger.writeToFile(logName, lp.toJsonString() + "\n");
@@ -117,8 +120,9 @@ public class DataManager {
     }
 
     public void onReceivedData(byte[] arg0) {
-        dataParser.onDataReceived(arg0, dataRenderer);
-
+        isFirstInput = dataParser.parseData(arg0, dataRenderer, isFirstInput);
+//        if (isFirstInput) dataRenderer.printDebug("TRUE");
+//        else dataRenderer.printDebug("FALSE");
     }
 
     public void onParsedPacket(DataPacket dp) {

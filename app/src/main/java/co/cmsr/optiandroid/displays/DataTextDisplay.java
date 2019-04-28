@@ -53,4 +53,17 @@ public class DataTextDisplay {
             }
         });
     }
+
+    public void debugPrint(String val) {
+        final String dataString;
+        if (val != null) dataString = val;
+        else dataString = "No value";
+
+        uiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText(dataString);
+            }
+        });
+    }
 }

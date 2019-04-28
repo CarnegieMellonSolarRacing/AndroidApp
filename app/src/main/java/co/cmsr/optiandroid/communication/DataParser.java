@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import android.app.Activity;
 
 import co.cmsr.optiandroid.datastructures.DataPacket;
 import co.cmsr.optiandroid.renderers.DataRenderer;
@@ -17,39 +18,57 @@ import co.cmsr.optiandroid.renderers.DataRenderer;
  * Created by jonbuckley on 4/9/17.
  */
 
+//public class ExceptionHandler implements
+//        java.lang.Thread.UncaughtExceptionHandler {
+//    private final Activity myContext;
+//    private final String LINE_SEPARATOR = "\n";
+//
+//    public ExceptionHandler(Activity context) {
+//        myContext = context;
+//
+//    }
+//    public void uncaughtException(Thread thread, Throwable exception) {
+//
+//    }
+//}
+
 public class DataParser {
     LinkedList<DataPacket> parsedPackets;
     String buffer;
 
-    static final String deliminator = "\r\n";
+    static final String deliminator = "\n";
 
     public DataParser() {
         buffer = "";
         parsedPackets = new LinkedList<DataPacket>();
+//        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
     }
 
-    public void onDataReceived(byte[] data, DataRenderer renderer) {
+    public boolean parseData(byte[] data, DataRenderer renderer, boolean isFirstInput) {
         buffer += new String(data);
 
         if (buffer.contains("\n")) {
             // Try to parse data if we have received a "full line"
-            String[] lines = buffer.split(deliminator);
-
-            String firstLine = lines[0];
-            try {
-                String[] parts = firstLine.split(",");
-                int[] ints = new int[parts.length];
-                for (int i = 0; i < parts.length; i++) {
-//                    ints[i] = Integer.parseInt(parts[i]);
-                    renderer.printDebug(parts[i]);
-                }
-            } catch (Exception e) {
-                System.out.println("Could not parse the following line: " + firstLine);
-            }
+            renderer.printDebug(buffer);
+            if (!isFirstInput) {
+                String[] lines = buffer.split(deliminator);
+                String firstLine = lines[0];
+//                try {
+//                    String[] parts = firstLine.split(",");
+//                    //                int[] ints = new int[parts.length];
+//                    for (int i = 0; i < parts.length; i++) {
+//                        // ints[i] = Integer.parseInt(parts[i]);
+//                        renderer.printDebug(parts[i]);
+//                    }
+//                } catch (Exception e) {
+//                    System.out.println("Could not parse the following line: " + firstLine);
+//                }
+            } else isFirstInput = false;
 
             // Pop off the first line from the buffer.
-            buffer = buffer.substring(firstLine.length() + deliminator.length());
+            buffer = buffer.substring(buffer.length());
         }
+        return isFirstInput;
     }
 
     public DataPacket getDataPacket() {
