@@ -37,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
         Intent i = getIntent();
         boolean saveLog = i.getBooleanExtra("save_log", false);
         String name = i.getStringExtra("trial_name");
+        Float initial_charge = i.getFloatExtra("initial_charge", 0);
         debugEnabled = i.getBooleanExtra("debug_enabled", false);
 
         setContentView(R.layout.activity_main);
 
         trialDisplay = (TextView) findViewById(R.id.trialDisplay);
 
-        Initialize(name, saveLog);
+        Initialize(name, saveLog, initial_charge);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    protected void Initialize(final String trialName, boolean saveLog) {
+    protected void Initialize(final String trialName, boolean saveLog, Float initial_charge) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 trialName,
                 saveLog,
+                initial_charge,
                 renderer,
                 boatConfig,
                 boatMap,

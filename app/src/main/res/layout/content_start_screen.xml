@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,23 +14,21 @@
         <ImageView
             android:id="@+id/cmsrLogo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="274dp"
+            app:layout_constraintHeight_max="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHeight_max="10dp"
             app:srcCompat="@drawable/cmsr_logo" />
 
         <TextView
             android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Driver Dashboard"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="40dp"
-            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cmsrLogo" />
@@ -38,56 +37,79 @@
             android:id="@+id/nameFieldLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="19dp"
+            android:layout_marginRight="19dp"
             android:text="Trial Name"
             android:textSize="30dp"
-            android:layout_marginTop="36dp"
-            app:layout_constraintTop_toBottomOf="@+id/header"
             app:layout_constraintRight_toLeftOf="@+id/centerline"
-            android:layout_marginRight="19dp"
-            android:layout_marginEnd="19dp" />
+            app:layout_constraintTop_toBottomOf="@+id/header" />
+
         <EditText
-            android:id="@+id/nameField"
-            android:layout_height="wrap_content"
+            android:id="@+id/trial_name"
             android:layout_width="0dp"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="Enter a Trial Name"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            app:layout_constraintTop_toTopOf="@+id/nameFieldLabel"
+            android:ems="10"
+            android:hint="Enter a Trial Name"
+            android:inputType="text"
             app:layout_constraintLeft_toLeftOf="@+id/centerline"
             app:layout_constraintRight_toRightOf="@+id/header"
-            android:layout_marginStart="8dp" />
+            app:layout_constraintTop_toTopOf="@+id/nameFieldLabel" />
+
+        <EditText
+            android:id="@+id/initial_charge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="412dp"
+            android:ems="10"
+            android:hint="Initial Charge"
+            android:inputType="text"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/centerline"
+            app:layout_constraintRight_toRightOf="@+id/header"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/saveLogLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="132dp"
+            android:layout_marginRight="20dp"
             android:text="Save Log"
             android:textSize="30dp"
-            android:layout_marginTop="79dp"
-            app:layout_constraintTop_toBottomOf="@+id/header"
             app:layout_constraintRight_toLeftOf="@+id/centerline"
-            android:layout_marginRight="19dp"
-            android:layout_marginEnd="19dp" />
+            app:layout_constraintTop_toBottomOf="@+id/header" />
+
+        <TextView
+            android:id="@+id/initial_charge_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="88dp"
+            android:text="Init Charge(C)"
+            android:textSize="30dp"
+            app:layout_constraintRight_toLeftOf="@+id/centerline"
+            app:layout_constraintTop_toBottomOf="@+id/header" />
 
         <ToggleButton
             android:id="@+id/saveLogButton"
-            android:layout_height="48dp"
             android:layout_width="0dp"
+            android:layout_height="48dp"
             android:layout_marginLeft="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/saveLogLabel"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/centerline"
-            app:layout_constraintRight_toRightOf="@+id/header"
-            android:layout_marginStart="8dp" />
+            app:layout_constraintRight_toRightOf="@+id/header" />
 
-          <!-- Causes black screen when toggle "On" -->
-          <TextView
+        <!-- Causes black screen when toggle "On" -->
+        <TextView
             android:id="@+id/enableDebugLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="19dp"
-            android:layout_marginRight="18dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
             android:text="Enable Debug"
             android:textSize="30dp"
             app:layout_constraintRight_toLeftOf="@+id/centerline"
@@ -98,8 +120,8 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/enableDebugLabel"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/centerline"
             app:layout_constraintRight_toRightOf="@+id/header" />
 
@@ -107,34 +129,32 @@
             android:id="@+id/startButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="236dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="177dp"
             android:text="Start"
             app:layout_constraintHorizontal_bias="0.138"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/loadLogButton"
-            app:layout_constraintTop_toBottomOf="@+id/header"
-            android:layout_marginEnd="8dp" />
+            app:layout_constraintTop_toBottomOf="@+id/header" />
 
         <android.support.constraint.Guideline
+            android:id="@+id/centerline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/centerline"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5"
-            tools:layout_editor_absoluteY="89dp"
-            tools:layout_editor_absoluteX="400dp" />
+            tools:layout_editor_absoluteX="400dp"
+            tools:layout_editor_absoluteY="89dp" />
 
         <Button
             android:id="@+id/loadLogButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="Load Log"
-            app:layout_constraintTop_toTopOf="@+id/startButton"
             app:layout_constraintLeft_toRightOf="@+id/startButton"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="0dp"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/startButton" />
 
     </android.support.constraint.ConstraintLayout>
 

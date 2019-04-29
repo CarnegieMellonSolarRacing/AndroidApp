@@ -42,6 +42,9 @@ public class DataManager {
     DataRenderer dataRenderer;
     LinkedList<DataPacket> dataPackets;
 
+    // Battery Charge Calculations
+    Float total_charge;
+
     Button connectButton;
     long startTime;
     String logName;
@@ -52,11 +55,13 @@ public class DataManager {
             Context context,
             String trialName,
             boolean saveLog,
+            Float initial_charge,
             DataRenderer dataRenderer,
             BoatConfig boatConfig,
             BoatMap boatMap,
             DataProcessorConfig dpConfig) {
         this.context = context;
+        this.total_charge = initial_charge;
         this.dataRenderer = dataRenderer;
         this.boatConfig = boatConfig;
         this.boatMap = boatMap;
@@ -95,6 +100,7 @@ public class DataManager {
     public void onConnectionOpened() {
         connectButton.setBackgroundColor(Color.GREEN);
         connectButton.setText("Connected!");
+        dataRenderer.printDebug(total_charge.toString());
         isFirstInput = true;
         if (saveLog) {
             LoggerPacket lp = new LoggerPacket("CONNECTED", elapsedTime(), null);

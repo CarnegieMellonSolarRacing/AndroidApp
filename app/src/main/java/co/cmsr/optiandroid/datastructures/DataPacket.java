@@ -20,6 +20,8 @@ public class DataPacket {
         this.battery_temp = battery_temp;
         this.battery_charge = battery_charge;
         this.solar_charge = solar_charge;
+        this.battery_charge_percent = (double)0;
+        this.boatSpeed = (double)0;
         this.time = Calendar.getInstance().getTime();
     }
 

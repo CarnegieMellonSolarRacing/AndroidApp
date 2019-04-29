@@ -64,12 +64,14 @@ public class BoatDataRenderer implements DataRenderer {
 
     @Override
     public void renderData(LinkedList<DataPacket> dp_list) {
-        DataPacket dp = dp_list.getLast();
-        solarPanelDisplay.updateDisplay(dp.solar_charge);
-        batteryChargeDisplay.updateDisplay(dp.battery_charge);
-        batteryChargePercentDisplay.updateDisplay(dp.battery_charge_percent);
-        batteryTempDisplay.updateDisplay(dp.battery_temp);
-        boatSpeedDisplay.updateDisplay(dp.boatSpeed);
+        if (!dp_list.isEmpty()) {
+            DataPacket dp = dp_list.getLast();
+            solarPanelDisplay.updateDisplay(dp.solar_charge);
+            batteryChargeDisplay.updateDisplay(dp.battery_charge);
+            batteryChargePercentDisplay.updateDisplay(dp.battery_charge_percent);
+            batteryTempDisplay.updateDisplay(dp.battery_temp);
+            boatSpeedDisplay.updateDisplay(dp.boatSpeed);
+        }
     }
 
     @Override

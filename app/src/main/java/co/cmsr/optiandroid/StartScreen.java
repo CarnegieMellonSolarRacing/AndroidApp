@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ToggleButton;
 
 public class StartScreen extends AppCompatActivity {
-    EditText nameField;
+    EditText init_charge_field;
     ToggleButton saveLogButton, enableDebugButton;
     Button startButton, loadLogButton;
 
@@ -23,7 +23,7 @@ public class StartScreen extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        nameField = (EditText) findViewById(R.id.nameField);
+        init_charge_field = (EditText) findViewById(R.id.initial_charge);
         saveLogButton = (ToggleButton) findViewById(R.id.saveLogButton);
         enableDebugButton = (ToggleButton) findViewById(R.id.enableDebugButton);
         startButton = (Button) findViewById(R.id.startButton);
@@ -69,7 +69,7 @@ public class StartScreen extends AppCompatActivity {
     }
 
     public void startButtonClicked(View view) {
-        String name = nameField.getText().toString();
+        String name = init_charge_field.getText().toString();
         boolean saveLog = saveLogButton.isChecked();
         boolean debugEnabled = enableDebugButton.isChecked();
 
