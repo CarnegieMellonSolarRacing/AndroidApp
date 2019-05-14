@@ -34,13 +34,4 @@ public class DataProcessor {
 
         currentCalibrationWindows = new double[numCurrents][calibrationWindowSize];
     }
-
-    private double average(double[] values) {
-        double sum = 0.0;
-        for (double val : values) {
-            sum += val;
-        }
-
-        return sum / (values.length > 0 ? values.length : 1);
-    }
 }

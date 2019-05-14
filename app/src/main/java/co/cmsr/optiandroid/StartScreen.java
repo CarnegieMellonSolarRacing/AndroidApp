@@ -13,16 +13,18 @@ import android.widget.ToggleButton;
 
 public class StartScreen extends AppCompatActivity {
     EditText init_charge_field;
+    EditText trial_name;
     ToggleButton saveLogButton, enableDebugButton;
     Button startButton, loadLogButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_screen);
+        setContentView(R.layout.content_start_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        trial_name = (EditText) findViewById(R.id.trial_name);
         init_charge_field = (EditText) findViewById(R.id.initial_charge);
         saveLogButton = (ToggleButton) findViewById(R.id.saveLogButton);
         enableDebugButton = (ToggleButton) findViewById(R.id.enableDebugButton);
@@ -69,14 +71,21 @@ public class StartScreen extends AppCompatActivity {
     }
 
     public void startButtonClicked(View view) {
-        String name = init_charge_field.getText().toString();
+        String trial_name_text = trial_name.getText().toString();
+        String init_charge_text = init_charge_field.getText().toString();
         boolean saveLog = saveLogButton.isChecked();
         boolean debugEnabled = enableDebugButton.isChecked();
 
         enableButtons(false);
 
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        i.putExtra("trial_name", name);
+        i.putExtra("trial_name", trial_name_text);
+
+        // If user provided initial charge, parse this, else, let main activity just use default
+        // value
+        if (init_charge_text.length() != 0) {
+            i.putExtra("initial_charge", Double.parseDouble(init_charge_text));
+        }
         i.putExtra("save_log", saveLog);
         i.putExtra("debug_enabled", debugEnabled);
         startActivity(i);

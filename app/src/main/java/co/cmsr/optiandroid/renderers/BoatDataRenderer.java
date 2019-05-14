@@ -32,7 +32,7 @@ public class BoatDataRenderer implements DataRenderer {
 
     volatile boolean uiInitialized;
 
-    public BoatDataRenderer(Activity activity, final BoatConfig boatConfig) {
+    public BoatDataRenderer(Activity activity, final BoatConfig boatConfig, Double charge_left) {
         uiInitialized = false;
 
         final ImageView boatGraphic = (ImageView) activity.findViewById(R.id.boatGraphic);
@@ -46,6 +46,7 @@ public class BoatDataRenderer implements DataRenderer {
 
         solarPanelDisplay = new DataTextDisplay(solarPanelPowerTextView, power_symbol);
         batteryChargeDisplay = new DataTextDisplay(batteryChargeTextView, charge_symbol);
+        batteryChargeDisplay.updateDisplay(charge_left);
         batteryChargePercentDisplay = new DataTextDisplay(batteryChargePercentTextView, percent_symbol);
         batteryTempDisplay = new DataTextDisplay(batteryTempTextView, temp_symbol);
         boatSpeedDisplay = new DataTextDisplay(boatSpeedTextView, speed_symbol);
@@ -66,8 +67,8 @@ public class BoatDataRenderer implements DataRenderer {
     public void renderData(LinkedList<DataPacket> dp_list) {
         if (!dp_list.isEmpty()) {
             DataPacket dp = dp_list.getLast();
-            solarPanelDisplay.updateDisplay(dp.solar_charge);
-            batteryChargeDisplay.updateDisplay(dp.battery_charge);
+            solarPanelDisplay.updateDisplay(dp.solar_charge_rate);
+            batteryChargeDisplay.updateDisplay(dp.charge_left);
             batteryChargePercentDisplay.updateDisplay(dp.battery_charge_percent);
             batteryTempDisplay.updateDisplay(dp.battery_temp);
             boatSpeedDisplay.updateDisplay(dp.boatSpeed);

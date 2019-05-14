@@ -65,7 +65,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="412dp"
             android:ems="10"
-            android:hint="Initial Charge"
+            android:hint="Default: 20"
             android:inputType="text"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/centerline"
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="88dp"
-            android:text="Init Charge(C)"
+            android:text="Init Charge(Ah)"
             android:textSize="30dp"
             app:layout_constraintRight_toLeftOf="@+id/centerline"
             app:layout_constraintTop_toBottomOf="@+id/header" />

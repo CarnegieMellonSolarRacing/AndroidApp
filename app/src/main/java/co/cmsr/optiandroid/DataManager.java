@@ -43,7 +43,7 @@ public class DataManager {
     LinkedList<DataPacket> dataPackets;
 
     // Battery Charge Calculations
-    Float total_charge;
+    Double total_charge;
 
     Button connectButton;
     long startTime;
@@ -55,7 +55,7 @@ public class DataManager {
             Context context,
             String trialName,
             boolean saveLog,
-            Float initial_charge,
+            Double initial_charge,
             DataRenderer dataRenderer,
             BoatConfig boatConfig,
             BoatMap boatMap,
@@ -66,6 +66,11 @@ public class DataManager {
         this.boatConfig = boatConfig;
         this.boatMap = boatMap;
         this.dataPackets = new LinkedList<DataPacket>();
+
+        // First data value with dummy measurements and initial charge
+        DataPacket new_dp = new DataPacket(0, initial_charge,
+                0, 0, 0);
+        this.dataPackets.add(new_dp);
 
         // Get date and append to trial name for log name.
         Date today = new Date();
@@ -129,7 +134,7 @@ public class DataManager {
     }
 
     public void onReceivedData(byte[] arg0) {
-        isFirstInput = dataParser.parseData(arg0, isFirstInput, dataPackets);
+        isFirstInput = dataParser.parseData(arg0, isFirstInput, dataPackets, total_charge);
         dataRenderer.renderData(dataPackets);
     }
 

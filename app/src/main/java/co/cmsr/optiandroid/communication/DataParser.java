@@ -24,7 +24,8 @@ public class DataParser {
         buffer = "";
     }
 
-    public boolean  parseData(byte[] data, boolean isFirstInput, LinkedList<DataPacket> dataPackets) {
+    public boolean  parseData(byte[] data, boolean isFirstInput, LinkedList<DataPacket> dataPackets,
+                              double charge_left) {
         buffer += new String(data);
 
         // Try to parse data if we have received a "full line"
@@ -41,10 +42,18 @@ public class DataParser {
                         measurements[i] = Float.parseFloat(parts[i]);
                     }
                     if (parts.length == 3) {
-                        DataPacket new_dp = new DataPacket(measurements[0],
-                                measurements[1], measurements[2]);
+                        double batt_temp = measurements[0];
+                        double batt_current_discharge = measurements[1];
+                        double batt_current_charge = measurements[2];
+
+                        // Calculate new charge left
+                        charge_left = calc_leftover_charge(charge_left,
+                                batt_current_discharge, batt_current_charge);
+                        double percent_left = 100 * (
+                                charge_left / dataPackets.getFirst().charge_left);
+                        DataPacket new_dp = new DataPacket(batt_temp, charge_left,
+                                percent_left, measurements[1], measurements[2]);
                         dataPackets.add(new_dp);
-//                        DataProcessor.calc_leftover_charge(new_dp);
                     }
                 } catch (Exception e) {
                     System.out.println("Could not parse the following line: " + firstLine);
@@ -55,6 +64,11 @@ public class DataParser {
             buffer = buffer.substring(buffer.length());
         }
         return isFirstInput;
+    }
+
+    public double calc_leftover_charge(double charge_left, double discharge_rate, double charge_rate) {
+        double net_change = charge_rate - discharge_rate;
+        return charge_left + net_change * ;
     }
 
 //    public DataPacket getDataPacket() {
