@@ -28,7 +28,7 @@ public class DataParser {
                               double charge_left) {
         buffer += new String(data);
 
-        // Try to parse data if we have received a "full line"
+        // Try to parse data if we have received a complete message from arduino
         if (buffer.contains("\n")) {
 
             if (!isFirstInput) {
@@ -58,7 +58,7 @@ public class DataParser {
                 } catch (Exception e) {
                     System.out.println("Could not parse the following line: " + firstLine);
                 }
-            } else isFirstInput = false;
+            } else isFirstInput = false;  // ignore first message since possibly truncated
 
             // Pop off the first line from the buffer.
             buffer = buffer.substring(buffer.length());
@@ -68,7 +68,7 @@ public class DataParser {
 
     public double calc_leftover_charge(double charge_left, double discharge_rate, double charge_rate) {
         double net_change = charge_rate - discharge_rate;
-        return charge_left + net_change * ;
+        return charge_left + net_change;
     }
 
 //    public DataPacket getDataPacket() {

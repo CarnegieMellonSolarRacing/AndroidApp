@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ToggleButton;
 
 public class StartScreen extends AppCompatActivity {
-    EditText init_charge_field;
+    EditText init_charge_field, init_charge_per_field;
     EditText trial_name;
     ToggleButton saveLogButton, enableDebugButton;
     Button startButton, loadLogButton;
@@ -26,6 +26,7 @@ public class StartScreen extends AppCompatActivity {
 
         trial_name = (EditText) findViewById(R.id.trial_name);
         init_charge_field = (EditText) findViewById(R.id.initial_charge);
+        init_charge_per_field = (EditText) findViewById(R.id.init_charge_percent);
         saveLogButton = (ToggleButton) findViewById(R.id.saveLogButton);
         enableDebugButton = (ToggleButton) findViewById(R.id.enableDebugButton);
         startButton = (Button) findViewById(R.id.startButton);
@@ -73,6 +74,7 @@ public class StartScreen extends AppCompatActivity {
     public void startButtonClicked(View view) {
         String trial_name_text = trial_name.getText().toString();
         String init_charge_text = init_charge_field.getText().toString();
+        String init_charge_per_text = init_charge_per_field.getText().toString();
         boolean saveLog = saveLogButton.isChecked();
         boolean debugEnabled = enableDebugButton.isChecked();
 
@@ -85,6 +87,9 @@ public class StartScreen extends AppCompatActivity {
         // value
         if (init_charge_text.length() != 0) {
             i.putExtra("initial_charge", Double.parseDouble(init_charge_text));
+        }
+        if (init_charge_per_text.length() != 0) {
+            i.putExtra("initial_charge_percent", Double.parseDouble(init_charge_per_text));
         }
         i.putExtra("save_log", saveLog);
         i.putExtra("debug_enabled", debugEnabled);

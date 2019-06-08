@@ -11,10 +11,34 @@
         tools:context="co.cmsr.optiandroid.StartScreen"
         tools:showIn="@layout/activity_start_screen">
 
+        <TextView
+            android:id="@+id/init_charge_percent_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="116dp"
+            android:text="Init Charge %"
+            android:textSize="30dp"
+            app:layout_constraintRight_toLeftOf="@+id/centerline"
+            app:layout_constraintTop_toBottomOf="@+id/header" />
+
+        <EditText
+            android:id="@+id/init_charge_percent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Default: 100"
+            android:inputType="text"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/centerline"
+            app:layout_constraintRight_toRightOf="@+id/header"
+            app:layout_constraintTop_toTopOf="@+id/init_charge_percent_label" />
+
         <ImageView
             android:id="@+id/cmsrLogo"
             android:layout_width="wrap_content"
-            android:layout_height="274dp"
+            android:layout_height="189dp"
             app:layout_constraintHeight_max="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -37,9 +61,8 @@
             android:id="@+id/nameFieldLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="19dp"
-            android:layout_marginRight="19dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="20dp"
             android:text="Trial Name"
             android:textSize="30dp"
             app:layout_constraintRight_toLeftOf="@+id/centerline"
@@ -63,20 +86,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="412dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
-            android:hint="Default: 20"
+            android:hint="Default: "
             android:inputType="text"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/centerline"
             app:layout_constraintRight_toRightOf="@+id/header"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/initial_charge_label" />
 
         <TextView
             android:id="@+id/saveLogLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="132dp"
+            android:layout_marginTop="180dp"
             android:layout_marginRight="20dp"
             android:text="Save Log"
             android:textSize="30dp"
@@ -87,7 +110,7 @@
             android:id="@+id/initial_charge_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="88dp"
+            android:layout_marginTop="64dp"
             android:text="Init Charge(Ah)"
             android:textSize="30dp"
             app:layout_constraintRight_toLeftOf="@+id/centerline"
@@ -108,8 +131,8 @@
             android:id="@+id/enableDebugLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="12dp"
             android:text="Enable Debug"
             android:textSize="30dp"
             app:layout_constraintRight_toLeftOf="@+id/centerline"
@@ -129,7 +152,7 @@
             android:id="@+id/startButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="236dp"
+            android:layout_marginTop="308dp"
             android:layout_marginRight="8dp"
             android:text="Start"
             app:layout_constraintHorizontal_bias="0.138"
@@ -142,9 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5"
-            tools:layout_editor_absoluteX="400dp"
-            tools:layout_editor_absoluteY="89dp" />
+            app:layout_constraintGuide_percent="0.52" />
 
         <Button
             android:id="@+id/loadLogButton"
