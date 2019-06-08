@@ -41,35 +41,28 @@
         android:layout_below="@+id/header"
         android:textSize="20dp"
         android:text="Trial:" />
+
     <TextView
         android:id="@+id/trialDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/trialLabel"
-        android:layout_marginLeft="10dp"
         android:layout_below="@+id/header"
-        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/trialLabel"
+        android:text="test trial"
         android:textColor="@android:color/black"
-        android:text="test rial" />
+        android:textSize="20dp" />
 
-<!--    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/currentLineChart"
-        android:layout_below="@+id/trialDisplay"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/voltagesBarChart"
-        android:layout_below="@+id/currentLineChart"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />-->
 
     <include
         layout="@layout/boat_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/trialDisplay"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="-2dp" />
 
 </RelativeLayout>

@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     BarChart voltagesBarChart;
 
     boolean debugEnabled;
-    MockDataSource mockDataSource;
 
     volatile DataManager dataManager;
 
@@ -35,38 +36,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Get data(user-typed inputs) from start screen
         Intent i = getIntent();
         boolean saveLog = i.getBooleanExtra("save_log", false);
         String name = i.getStringExtra("trial_name");
+        Double initial_charge = i.getDoubleExtra("initial_charge", 90);
         debugEnabled = i.getBooleanExtra("debug_enabled", false);
 
         setContentView(R.layout.activity_main);
 
         trialDisplay = (TextView) findViewById(R.id.trialDisplay);
 
-        Initialize(name, saveLog);
+        Initialize(name, saveLog, initial_charge);
     }
 
     @Override
     protected void onPause() {
         dataManager.pause();
-        if (debugEnabled && mockDataSource != null) {
-            mockDataSource.pauseTransmitting();
-        }
 
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        if (debugEnabled && mockDataSource != null) {
-            mockDataSource.startTransmitting();
-        }
 
         super.onResume();
     }
 
-    protected void Initialize(final String trialName, boolean saveLog) {
+    protected void Initialize(final String trialName, boolean saveLog, final Double initial_charge) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -77,19 +74,15 @@ public class MainActivity extends AppCompatActivity {
         BoatMap boatMap = new BoatMap(true /* use defaults */);
         BoatConfig boatConfig = new BoatConfig(true /* use defaults */);
         DataProcessorConfig dpConfig = new DataProcessorConfig(true /* use defaults */);
-        BoatDataRenderer renderer = new BoatDataRenderer(this, boatConfig);
+        BoatDataRenderer renderer = new BoatDataRenderer(this, boatConfig, initial_charge);
         dataManager = new DataManager(
                 this,
                 trialName,
                 saveLog,
+                initial_charge,
                 renderer,
                 boatConfig,
                 boatMap,
                 dpConfig);
-
-        if (debugEnabled) {
-            mockDataSource = new MockDataSource(dataManager);
-            mockDataSource.startTransmitting();
-        }
     }
 }

@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 import co.cmsr.optiandroid.communication.ArduinoUsbBridge;
 import co.cmsr.optiandroid.communication.DataParser;
@@ -39,30 +40,44 @@ public class DataManager {
     DataProcessor dataProcessor;
     LocalDataGenerator localDataGenerator;
     DataRenderer dataRenderer;
+    LinkedList<DataPacket> dataPackets;
+
+    // Battery Charge Calculations
+    Double total_charge;
 
     Button connectButton;
     long startTime;
     String logName;
     boolean saveLog;
+    boolean isFirstInput;
 
     public DataManager(
             Context context,
             String trialName,
             boolean saveLog,
+            Double initial_charge,
             DataRenderer dataRenderer,
             BoatConfig boatConfig,
             BoatMap boatMap,
             DataProcessorConfig dpConfig) {
         this.context = context;
+        this.total_charge = initial_charge;
         this.dataRenderer = dataRenderer;
         this.boatConfig = boatConfig;
         this.boatMap = boatMap;
+        this.dataPackets = new LinkedList<DataPacket>();
+
+        // First data value with dummy measurements and initial charge
+        DataPacket new_dp = new DataPacket(0, initial_charge,
+                0, 0, 0);
+        this.dataPackets.add(new_dp);
 
         // Get date and append to trial name for log name.
         Date today = new Date();
         String dateString = new SimpleDateFormat("dd-MM-yyyy").format(today);
         this.logName = String.format("%s-%s.log", trialName, dateString);
         this.saveLog = saveLog;
+        this.isFirstInput = true;
 
         // Create data pipeline: UsbBridge -> parser -> processor -> localDataGenerator -> renderer
         bridge = new ArduinoUsbBridge(this, context);
@@ -90,6 +105,8 @@ public class DataManager {
     public void onConnectionOpened() {
         connectButton.setBackgroundColor(Color.GREEN);
         connectButton.setText("Connected!");
+        dataRenderer.printDebug(total_charge.toString());
+        isFirstInput = true;
         if (saveLog) {
             LoggerPacket lp = new LoggerPacket("CONNECTED", elapsedTime(), null);
             Logger.writeToFile(logName, lp.toJsonString() + "\n");
@@ -117,35 +134,10 @@ public class DataManager {
     }
 
     public void onReceivedData(byte[] arg0) {
-        dataParser.onDataReceived(arg0);
-        DataPacket dp = dataParser.getDataPacket();
-
-        onParsedPacket(dp);
+        isFirstInput = dataParser.parseData(arg0, isFirstInput, dataPackets, total_charge);
+        dataRenderer.renderData(dataPackets);
     }
 
-    public void onParsedPacket(DataPacket dp) {
-        if (dp != null) {
-            float currentTime = elapsedTime();
-
-            // This will modify dp to be cleansed.
-            dataProcessor.onDataPacketReceievd(dp);
-            // Gather local data.
-            LocalDataPacket ldp = localDataGenerator.gatherLocalData();
-            // Display the data.
-            BoatData boatData = BoatData.generateBoatData(
-                    context,
-                    boatMap,
-                    dataProcessor.isCalibrated(),
-                    dp /* Data Packet */,
-                    ldp /* Local Data Packet */);
-            dataRenderer.onPacketParsed(currentTime, boatData);
-
-            if (saveLog) {
-                String boatDataJson = new LoggerPacket("UPDATE", currentTime, boatData).toJsonString();
-                Logger.writeToFile(logName, boatDataJson + "\n");
-            }
-        }
-    }
 
     private float elapsedTime() {
         long currentTime = System.currentTimeMillis();

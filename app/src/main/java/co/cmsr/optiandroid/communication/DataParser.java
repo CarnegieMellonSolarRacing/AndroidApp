@@ -9,115 +9,74 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import android.app.Activity;
 
 import co.cmsr.optiandroid.datastructures.DataPacket;
 
-/**
- * Created by jonbuckley on 4/9/17.
- */
 
 public class DataParser {
-    LinkedList<DataPacket> parsedPackets;
     String buffer;
 
-    static final String deliminator = "\r\n";
+    static final String new_line_delim = "\n";
+    static final String csv_delim = ",";
 
     public DataParser() {
         buffer = "";
-        parsedPackets = new LinkedList<DataPacket>();
     }
 
-    public void onDataReceived(byte[] data) {
+    public boolean  parseData(byte[] data, boolean isFirstInput, LinkedList<DataPacket> dataPackets,
+                              double charge_left) {
         buffer += new String(data);
 
+        // Try to parse data if we have received a "full line"
         if (buffer.contains("\n")) {
-            // Try to parse data if we have received a "full line"
-            String[] lines = buffer.split(deliminator);
 
-            String firstLine = lines[0];
-            try {
-                DataPacket packet = parse(new ByteArrayInputStream(firstLine.getBytes()));
-                parsedPackets.add(packet);
-            } catch (Exception e) {
-                System.out.println("Could not parse the following line: " + firstLine);
-            }
+            if (!isFirstInput) {
+                String[] lines = buffer.split(new_line_delim);
+
+                String firstLine = lines[0];
+                try {
+                    String[] parts = firstLine.split(csv_delim);
+                    float[] measurements = new float[parts.length];
+                    for (int i = 0; i < parts.length; i++) {
+                        measurements[i] = Float.parseFloat(parts[i]);
+                    }
+                    if (parts.length == 3) {
+                        double batt_temp = measurements[0];
+                        double batt_current_discharge = measurements[1];
+                        double batt_current_charge = measurements[2];
+
+                        // Calculate new charge left
+                        charge_left = calc_leftover_charge(charge_left,
+                                batt_current_discharge, batt_current_charge);
+                        double percent_left = 100 * (
+                                charge_left / dataPackets.getFirst().charge_left);
+                        DataPacket new_dp = new DataPacket(batt_temp, charge_left,
+                                percent_left, measurements[1], measurements[2]);
+                        dataPackets.add(new_dp);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Could not parse the following line: " + firstLine);
+                }
+            } else isFirstInput = false;
 
             // Pop off the first line from the buffer.
-            buffer = buffer.substring(firstLine.length() + deliminator.length());
+            buffer = buffer.substring(buffer.length());
         }
+        return isFirstInput;
     }
 
-    public DataPacket getDataPacket() {
-        if (!parsedPackets.isEmpty()) {
-            return parsedPackets.removeFirst();
-        }
-
-        return null;
+    public double calc_leftover_charge(double charge_left, double discharge_rate, double charge_rate) {
+        double net_change = charge_rate - discharge_rate;
+        return charge_left + net_change * ;
     }
 
-    public DataPacket parse(InputStream in) throws IOException {
-        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-        reader.setLenient(true);
-        try {
-            return readDataPacket(reader);
-        } finally {
-            reader.close();
-        }
-    }
-
-    public DataPacket readDataPacket(JsonReader reader) throws IOException {
-        List<Double> currents = new ArrayList<Double>();
-        List<Double> temps = new ArrayList<Double>();
-        List<Double> voltages = new ArrayList<Double>();
-
-        reader.beginObject();
-        while (reader.hasNext()) {
-            String name = reader.nextName();
-            if (name.equals("currents")) {
-                currents = readCurrents(reader);
-            } else if (name.equals("temps")) {
-                temps = readTemps(reader);
-            } else if (name.equals("volts")) {
-                voltages = readVoltages(reader);
-            } else {
-                reader.skipValue();
-            }
-        }
-        reader.endObject();
-        return new DataPacket(temps, currents, voltages);
-    }
-
-    private List<Double> readCurrents(JsonReader reader) throws IOException {
-        List<Double> currents = new ArrayList<Double>();
-        reader.beginArray();
-        while (reader.hasNext()) {
-            currents.add(reader.nextDouble());
-        }
-        reader.endArray();
-
-        return currents;
-    }
-
-    private List<Double> readVoltages(JsonReader reader) throws IOException {
-        List<Double> voltages = new ArrayList<Double>();
-        reader.beginArray();
-        while (reader.hasNext()) {
-            voltages.add(reader.nextDouble());
-        }
-        reader.endArray();
-
-        return voltages;
-    }
-
-    private List<Double> readTemps(JsonReader reader) throws IOException {
-        List<Double> temps = new ArrayList<Double>();
-        reader.beginArray();
-        while (reader.hasNext()) {
-            temps.add(reader.nextDouble());
-        }
-        reader.endArray();
-
-        return temps;
-    }
+//    public DataPacket getDataPacket() {
+//        if (!parsedPackets.isEmpty()) {
+//            return parsedPackets.removeFirst();
+//        }
+//
+//        return null;
+//    }
 
 }
