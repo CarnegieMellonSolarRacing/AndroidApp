@@ -48,6 +48,7 @@ public class DataManager {
 
     Button connectButton;
     long startTime;
+    long prevTime;  // timestamp (MS) of last read-in message from Arduino
     String logName;
     boolean saveLog;
     boolean isFirstInput;
@@ -90,6 +91,7 @@ public class DataManager {
         localDataGenerator = new LocalDataGenerator(context);
 
         startTime = System.currentTimeMillis();
+        prevTime = System.currentTimeMillis();
 
         connectButton = (Button) ((Activity) context).findViewById(R.id.connectButton);
         connectButton.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +140,8 @@ public class DataManager {
     }
 
     public void onReceivedData(byte[] received_bytes) {
-        isFirstInput = dataParser.parseData(received_bytes, isFirstInput, dataPackets);
+        isFirstInput = dataParser.parseData(received_bytes, isFirstInput, dataPackets,
+                                            elapsedTime());
         dataRenderer.renderData(dataPackets);
 //        Integer size = dataPackets.size();
 //        dataRenderer.printDebug(size.toString());
@@ -146,9 +149,8 @@ public class DataManager {
 
 
     private float elapsedTime() {
-        long currentTime = System.currentTimeMillis();
-        long delta = currentTime - startTime;
-
-        return (float) delta / 1000.0f;
+        long difference = System.currentTimeMillis() - prevTime;
+        prevTime = System.currentTimeMillis();
+        return (float) difference / 1000;
     }
 }
