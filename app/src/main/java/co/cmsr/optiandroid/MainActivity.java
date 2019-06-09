@@ -38,16 +38,19 @@ public class MainActivity extends AppCompatActivity {
 
         // Get data(user-typed inputs) from start screen
         Intent i = getIntent();
-        boolean saveLog = i.getBooleanExtra("save_log", false);
+//        boolean saveLog = i.getBooleanExtra("save_log", false);
+        boolean saveLog = false;
         String name = i.getStringExtra("trial_name");
-        Double initial_charge = i.getDoubleExtra("initial_charge", 90);
-        debugEnabled = i.getBooleanExtra("debug_enabled", false);
+        Double initial_charge = i.getDoubleExtra("initial_charge", 220);
+        Double initial_charge_percent = i.getDoubleExtra("initial_charge_percent", 100);
+//        debugEnabled = i.getBooleanExtra("debug_enabled", false);
+        debugEnabled = false;
 
         setContentView(R.layout.activity_main);
 
         trialDisplay = (TextView) findViewById(R.id.trialDisplay);
 
-        Initialize(name, saveLog, initial_charge);
+        Initialize(name, saveLog, initial_charge, initial_charge_percent);
     }
 
     @Override
@@ -63,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    protected void Initialize(final String trialName, boolean saveLog, final Double initial_charge) {
+    protected void Initialize(final String trialName, boolean saveLog,
+                              final Double initial_charge, final Double initial_charge_percent) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -74,12 +78,16 @@ public class MainActivity extends AppCompatActivity {
         BoatMap boatMap = new BoatMap(true /* use defaults */);
         BoatConfig boatConfig = new BoatConfig(true /* use defaults */);
         DataProcessorConfig dpConfig = new DataProcessorConfig(true /* use defaults */);
-        BoatDataRenderer renderer = new BoatDataRenderer(this, boatConfig, initial_charge);
+
+        // Pass in any user-entered data into renderer to be processed
+        BoatDataRenderer renderer = new BoatDataRenderer(this, boatConfig, initial_charge,
+                                                        initial_charge_percent);
         dataManager = new DataManager(
                 this,
                 trialName,
                 saveLog,
                 initial_charge,
+                initial_charge_percent,
                 renderer,
                 boatConfig,
                 boatMap,

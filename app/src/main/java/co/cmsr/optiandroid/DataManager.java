@@ -25,10 +25,10 @@ import co.cmsr.optiandroid.logging.LoggerPacket;
 import co.cmsr.optiandroid.logging.Logger;
 import co.cmsr.optiandroid.renderers.DataRenderer;
 
-/**
- * Created by jonbuckley on 4/26/17.
+/*
+ * Data Manager is the high level interface between external events (ex: user click button
+ * or arduino sends data) and any backend processing.
  */
-
 public class DataManager {
     Context context;
 
@@ -44,9 +44,11 @@ public class DataManager {
 
     // Battery Charge Calculations
     Double total_charge;
+    Double initial_charge_percent;
 
     Button connectButton;
     long startTime;
+    long prevTime;  // timestamp (MS) of last read-in message from Arduino
     String logName;
     boolean saveLog;
     boolean isFirstInput;
@@ -56,20 +58,23 @@ public class DataManager {
             String trialName,
             boolean saveLog,
             Double initial_charge,
+            Double initial_charge_percent,
             DataRenderer dataRenderer,
             BoatConfig boatConfig,
             BoatMap boatMap,
             DataProcessorConfig dpConfig) {
         this.context = context;
-        this.total_charge = initial_charge;
-        this.dataRenderer = dataRenderer;
+        this.total_charge = initial_charge;  // total charge left
+        this.initial_charge_percent = initial_charge_percent;
+        this.dataRenderer = dataRenderer;  // handles displaying data
         this.boatConfig = boatConfig;
         this.boatMap = boatMap;
         this.dataPackets = new LinkedList<DataPacket>();
 
         // First data value with dummy measurements and initial charge
+        // Need to do this since every new charge estimate depends on previous in the linked list
         DataPacket new_dp = new DataPacket(0, initial_charge,
-                0, 0, 0);
+                initial_charge_percent, 0, 0);
         this.dataPackets.add(new_dp);
 
         // Get date and append to trial name for log name.
@@ -86,6 +91,7 @@ public class DataManager {
         localDataGenerator = new LocalDataGenerator(context);
 
         startTime = System.currentTimeMillis();
+        prevTime = System.currentTimeMillis();
 
         connectButton = (Button) ((Activity) context).findViewById(R.id.connectButton);
         connectButton.setOnClickListener(new View.OnClickListener() {
@@ -133,16 +139,18 @@ public class DataManager {
         }
     }
 
-    public void onReceivedData(byte[] arg0) {
-        isFirstInput = dataParser.parseData(arg0, isFirstInput, dataPackets, total_charge);
+    public void onReceivedData(byte[] received_bytes) {
+        isFirstInput = dataParser.parseData(received_bytes, isFirstInput, dataPackets,
+                                            elapsedTime());
         dataRenderer.renderData(dataPackets);
+//        Integer size = dataPackets.size();
+//        dataRenderer.printDebug(size.toString());
     }
 
 
     private float elapsedTime() {
-        long currentTime = System.currentTimeMillis();
-        long delta = currentTime - startTime;
-
-        return (float) delta / 1000.0f;
+        long difference = System.currentTimeMillis() - prevTime;
+        prevTime = System.currentTimeMillis();
+        return (float) difference / 1000;
     }
 }

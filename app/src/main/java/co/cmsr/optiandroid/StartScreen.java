@@ -12,10 +12,11 @@ import android.widget.EditText;
 import android.widget.ToggleButton;
 
 public class StartScreen extends AppCompatActivity {
-    EditText init_charge_field;
+    EditText init_charge_field, init_charge_per_field;
     EditText trial_name;
-    ToggleButton saveLogButton, enableDebugButton;
-    Button startButton, loadLogButton;
+//    ToggleButton saveLogButton, enableDebugButton;
+    Button startButton;
+//    Button loadLogButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,11 @@ public class StartScreen extends AppCompatActivity {
 
         trial_name = (EditText) findViewById(R.id.trial_name);
         init_charge_field = (EditText) findViewById(R.id.initial_charge);
-        saveLogButton = (ToggleButton) findViewById(R.id.saveLogButton);
-        enableDebugButton = (ToggleButton) findViewById(R.id.enableDebugButton);
+        init_charge_per_field = (EditText) findViewById(R.id.init_charge_percent);
+//        saveLogButton = (ToggleButton) findViewById(R.id.saveLogButton);
+//        enableDebugButton = (ToggleButton) findViewById(R.id.enableDebugButton);
         startButton = (Button) findViewById(R.id.startButton);
-        loadLogButton = (Button) findViewById(R.id.loadLogButton);
+//        loadLogButton = (Button) findViewById(R.id.loadLogButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,12 +39,12 @@ public class StartScreen extends AppCompatActivity {
                 startButtonClicked(view);
             }
         });
-        loadLogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadLogButtonClicked(view);
-            }
-        });
+//        loadLogButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                loadLogButtonClicked(view);
+//            }
+//        });
     }
 
     @Override
@@ -57,7 +59,7 @@ public class StartScreen extends AppCompatActivity {
             @Override
             public void run() {
                 // Disable start button to prevent repeated clicks.
-                loadLogButton.setEnabled(enabled);
+//                loadLogButton.setEnabled(enabled);
                 startButton.setEnabled(enabled);
             }
         });
@@ -73,8 +75,9 @@ public class StartScreen extends AppCompatActivity {
     public void startButtonClicked(View view) {
         String trial_name_text = trial_name.getText().toString();
         String init_charge_text = init_charge_field.getText().toString();
-        boolean saveLog = saveLogButton.isChecked();
-        boolean debugEnabled = enableDebugButton.isChecked();
+        String init_charge_per_text = init_charge_per_field.getText().toString();
+//        boolean saveLog = saveLogButton.isChecked();
+//        boolean debugEnabled = enableDebugButton.isChecked();
 
         enableButtons(false);
 
@@ -86,8 +89,11 @@ public class StartScreen extends AppCompatActivity {
         if (init_charge_text.length() != 0) {
             i.putExtra("initial_charge", Double.parseDouble(init_charge_text));
         }
-        i.putExtra("save_log", saveLog);
-        i.putExtra("debug_enabled", debugEnabled);
+        if (init_charge_per_text.length() != 0) {
+            i.putExtra("initial_charge_percent", Double.parseDouble(init_charge_per_text));
+        }
+//        i.putExtra("save_log", saveLog);
+//        i.putExtra("debug_enabled", debugEnabled);
         startActivity(i);
     }
 }

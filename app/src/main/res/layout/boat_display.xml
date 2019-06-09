@@ -57,7 +57,7 @@
         android:id="@+id/solarPanelPower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="15.0 W"
+        android:text="30.0A"
         android:textColor="@android:color/primary_text_light"
         android:textSize="@dimen/text_primary"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
@@ -85,7 +85,7 @@
         android:id="@+id/batteryCharge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10.0 A"
+        android:text="220 Ah"
         android:textColor="@android:color/primary_text_light"
         android:textSize="@dimen/text_primary"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
@@ -99,7 +99,7 @@
         android:id="@+id/batteryChargePercent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10.0 A"
+        android:text="100 %"
         android:textColor="@android:color/primary_text_light"
         android:textSize="@dimen/text_primary"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
@@ -127,7 +127,7 @@
         android:id="@+id/batteryTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10 C"
+        android:text="10 F"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
@@ -136,7 +136,6 @@
         app:layout_constraintRight_toRightOf="@+id/boatGraphic"
         app:layout_constraintTop_toTopOf="@+id/boatGraphic"
         app:layout_constraintVertical_bias="0.415" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
