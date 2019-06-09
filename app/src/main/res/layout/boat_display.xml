@@ -57,7 +57,7 @@
         android:id="@+id/solarPanelPower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="15.0 W"
+        android:text="30.0A"
         android:textColor="@android:color/primary_text_light"
         android:textSize="@dimen/text_primary"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
@@ -85,7 +85,7 @@
         android:id="@+id/batteryCharge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10.0 A"
+        android:text="220 Ah"
         android:textColor="@android:color/primary_text_light"
         android:textSize="@dimen/text_primary"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
@@ -127,7 +127,7 @@
         android:id="@+id/batteryTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10 C"
+        android:text="10 F"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
@@ -136,5 +136,60 @@
         app:layout_constraintRight_toRightOf="@+id/boatGraphic"
         app:layout_constraintTop_toTopOf="@+id/boatGraphic"
         app:layout_constraintVertical_bias="0.415" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Charge Left:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.415" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Percent Left:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.255"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.447" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:text="Bat. Temp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.978"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.447" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Charge Rate"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boatGraphic"
+        app:layout_constraintHorizontal_bias="0.214"
+        app:layout_constraintLeft_toLeftOf="@+id/boatGraphic"
+        app:layout_constraintRight_toRightOf="@+id/boatGraphic"
+        app:layout_constraintTop_toTopOf="@+id/boatGraphic"
+        app:layout_constraintVertical_bias="0.176" />
 
 </android.support.constraint.ConstraintLayout>

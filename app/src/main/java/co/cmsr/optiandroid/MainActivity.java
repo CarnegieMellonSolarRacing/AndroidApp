@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Intent i = getIntent();
         boolean saveLog = i.getBooleanExtra("save_log", false);
         String name = i.getStringExtra("trial_name");
-        Double initial_charge = i.getDoubleExtra("initial_charge", 90);
+        Double initial_charge = i.getDoubleExtra("initial_charge", 220);
         Double initial_charge_percent = i.getDoubleExtra("initial_charge_percent", 100);
         debugEnabled = i.getBooleanExtra("debug_enabled", false);
 

@@ -21,8 +21,8 @@ public class BoatDataRenderer implements DataRenderer {
     TextView batteryChargeTextView, batteryChargePercentTextView, batteryTempTextView;
     TextView boatSpeedTextView;
 
-    String power_symbol = "W";
-    String charge_symbol = "C";
+    String charge_rate_symbol = "A";
+    String charge_symbol = "Ah";
     String percent_symbol = "%";
     String temp_symbol = "ºF";  // Fahrenheit
     String speed_symbol = "mph";
@@ -45,7 +45,7 @@ public class BoatDataRenderer implements DataRenderer {
         batteryTempTextView = (TextView) activity.findViewById(R.id.batteryTemp);
         boatSpeedTextView = (TextView) activity.findViewById(R.id.speed);
 
-        solarPanelDisplay = new DataTextDisplay(solarPanelPowerTextView, power_symbol);
+        solarPanelDisplay = new DataTextDisplay(solarPanelPowerTextView, charge_rate_symbol);
         batteryChargeDisplay = new DataTextDisplay(batteryChargeTextView, charge_symbol);
         batteryChargePercentDisplay = new DataTextDisplay(batteryChargePercentTextView, percent_symbol);
         batteryTempDisplay = new DataTextDisplay(batteryTempTextView, temp_symbol);

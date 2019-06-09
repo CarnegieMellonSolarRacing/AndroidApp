@@ -19,6 +19,7 @@ public class DataParser {
 
     static final String new_line_delim = "\n";
     static final String csv_delim = ",";
+    double secToHour = 1.0 / 3600.0;
 
     // CSLA2DE
     int CSLA2DE_zero_v = 6;
@@ -69,7 +70,6 @@ public class DataParser {
                         // Calculate new charge left
                         charge_left = calc_leftover_charge(charge_left,
                                 batt_current_discharge, batt_current_charge, elapsedTime);
-                        charge_left -= 10;
                         double percent_left = 100 * (
                                 charge_left / dataPackets.getFirst().charge_left);
                         DataPacket new_dp = new DataPacket(batt_temp, charge_left,
@@ -91,7 +91,7 @@ public class DataParser {
                                        double discharge_rate,
                                        double charge_rate,
                                        double elapsedTimeSec) {
-        double net_change = (charge_rate - discharge_rate) * elapsedTimeSec;
+        double net_change = (charge_rate - discharge_rate) * elapsedTimeSec * secToHour;
         return charge_left + net_change;
     }
 
