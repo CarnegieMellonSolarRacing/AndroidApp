@@ -38,11 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Get data(user-typed inputs) from start screen
         Intent i = getIntent();
-        boolean saveLog = i.getBooleanExtra("save_log", false);
+//        boolean saveLog = i.getBooleanExtra("save_log", false);
+        boolean saveLog = false;
         String name = i.getStringExtra("trial_name");
         Double initial_charge = i.getDoubleExtra("initial_charge", 220);
         Double initial_charge_percent = i.getDoubleExtra("initial_charge_percent", 100);
-        debugEnabled = i.getBooleanExtra("debug_enabled", false);
+//        debugEnabled = i.getBooleanExtra("debug_enabled", false);
+        debugEnabled = false;
 
         setContentView(R.layout.activity_main);
 
