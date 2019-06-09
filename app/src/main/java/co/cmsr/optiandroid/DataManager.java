@@ -138,8 +138,10 @@ public class DataManager {
     }
 
     public void onReceivedData(byte[] received_bytes) {
-        isFirstInput = dataParser.parseData(received_bytes, isFirstInput, dataPackets, total_charge);
+        isFirstInput = dataParser.parseData(received_bytes, isFirstInput, dataPackets);
         dataRenderer.renderData(dataPackets);
+//        Integer size = dataPackets.size();
+//        dataRenderer.printDebug(size.toString());
     }
 
 

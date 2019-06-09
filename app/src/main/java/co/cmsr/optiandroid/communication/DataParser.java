@@ -24,14 +24,14 @@ public class DataParser {
         buffer = "";
     }
 
-    public boolean  parseData(byte[] data, boolean isFirstInput, LinkedList<DataPacket> dataPackets,
-                              double charge_left) {
+    public boolean  parseData(byte[] data, boolean isFirstInput, LinkedList<DataPacket> dataPackets) {
         buffer += new String(data);
 
         // Try to parse data if we have received a complete message from arduino
         if (buffer.contains("\n")) {
 
             if (!isFirstInput) {
+                Double charge_left = dataPackets.getLast().charge_left;
                 String[] lines = buffer.split(new_line_delim);
 
                 String firstLine = lines[0];
@@ -47,11 +47,12 @@ public class DataParser {
                         double batt_current_charge = measurements[2];
 
                         // Calculate new charge left
-                        charge_left = calc_leftover_charge(charge_left,
-                                batt_current_discharge, batt_current_charge);
+//                        charge_left = calc_leftover_charge(charge_left,
+//                                batt_current_discharge, batt_current_charge);
+                        charge_left -= 10;
                         double percent_left = 100 * (
                                 charge_left / dataPackets.getFirst().charge_left);
-                        DataPacket new_dp = new DataPacket(batt_temp, charge_left,
+                        DataPacket new_dp = new DataPacket(50, charge_left,
                                 percent_left, measurements[1], measurements[2]);
                         dataPackets.add(new_dp);
                     }
